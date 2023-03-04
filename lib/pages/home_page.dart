@@ -113,27 +113,19 @@ class _HomePageState extends State<HomePage> {
           ),
           for (var i in exploreSection) ...[
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.grey,
-              ),
-              child: Row(
-                children: [
-                  const Placeholder(
-                    fallbackWidth: 30.0,
-                    fallbackHeight: 30.0,
-                  ),
-                  const SizedBox(width: 10.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(i.pName),
-                      Text(
-                        i.pDescription,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              decoration: const BoxDecoration(color: Colors.grey),
+              height: 200.0,
+              child: Row(children: [
+                const Placeholder(fallbackWidth: 30.0, fallbackHeight: 30.0),
+                const SizedBox(width: 10.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(i.pName),
+                    Text(i.pDescription),
+                  ],
+                ),
+              ]),
             ),
             const SizedBox(height: 20.0),
           ],
