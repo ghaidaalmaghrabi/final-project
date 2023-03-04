@@ -76,6 +76,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 for (var i in exploreSection)
                   Container(
+                    padding: const EdgeInsets.all(10.0),
                     color: Colors.blue,
                     width: 200.0,
                     child: Column(
@@ -83,6 +84,7 @@ class _HomePageState extends State<HomePage> {
                         Text(i.pName),
                         Text(i.pDescription),
                         Text(i.pImage),
+                        const Divider(),
                       ],
                     ),
                   ),
