@@ -33,7 +33,7 @@ class _onboardingState extends State<onboarding> {
   }) {
     return AnimatedContainer(
       decoration: const BoxDecoration(
-        color: Color(0xFF7C81EC),
+        color: Color(0xFF022D35),
         borderRadius: BorderRadius.all(Radius.circular(50)),
       ),
       width: _currentPage == index ? 20 : 10,
@@ -65,13 +65,13 @@ class _onboardingState extends State<onboarding> {
                   child: Column(children: [
                     Image.asset(
                       contents[i].image,
-                      height: SizeConfig.blockV! * 35,
+                      height: SizeConfig.blockV! * 25,
                     ),
-                    SizedBox(height: (height >= 840) ? 40 : 30),
+                    SizedBox(height: (height >= 840) ? 80 : 30),
                     Text(
                       contents[i].title,
-                      style: GoogleFonts.dancingScript(
-                        fontWeight: FontWeight.w600,
+                      style: GoogleFonts.ibmPlexSansArabic(
+                        fontWeight: FontWeight.normal,
                         fontSize: (width <= 550) ? 40 : 35,
                       ),
                       textAlign: TextAlign.center,
@@ -79,10 +79,9 @@ class _onboardingState extends State<onboarding> {
                     const SizedBox(height: 15),
                     Text(
                       contents[i].desc,
-                      style: TextStyle(
+                      style: GoogleFonts.ibmPlexSansArabic(
                         fontSize: (width <= 550) ? 17 : 25,
                         fontWeight: FontWeight.w300,
-                        fontFamily: 'Mulish',
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -108,27 +107,31 @@ class _onboardingState extends State<onboarding> {
                     ? Padding(
                         padding: const EdgeInsets.all(30),
                         child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xff7C81EC),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                padding: (width <= 550)
-                                    ? const EdgeInsets.symmetric(
-                                        horizontal: 100, vertical: 20)
-                                    : EdgeInsets.symmetric(
-                                        horizontal: width * 0.2, vertical: 25),
-                                textStyle: TextStyle(
-                                    fontSize: (width <= 550) ? 13 : 17)),
-                            child: const Text("START")),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff022D35),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              padding: (width <= 550)
+                                  ? const EdgeInsets.symmetric(
+                                      horizontal: 100, vertical: 20)
+                                  : EdgeInsets.symmetric(
+                                      horizontal: width * 0.2, vertical: 25),
+                              textStyle: TextStyle(
+                                  fontSize: (width <= 550) ? 13 : 17)),
+                          child: Text(
+                            'البدء',
+                            style: GoogleFonts.ibmPlexSansArabic(fontSize: 14),
+                          ),
+                        ),
                       )
                     : Padding(
                         padding: const EdgeInsets.all(30),
@@ -149,32 +152,39 @@ class _onboardingState extends State<onboarding> {
                                     fontSize: (width <= 550) ? 13 : 17,
                                     fontWeight: FontWeight.w600),
                               ),
-                              child: const Text(
-                                'SKIP',
-                                style: TextStyle(color: Color(0xFF7C81EC)),
+                              child: Text(
+                                'تخطي',
+                                style: GoogleFonts.ibmPlexSansArabic(
+                                    color: const Color(0xFF022D35),),
                               ),
                             ),
                             ElevatedButton(
-                                onPressed: () {
-                                  _controller.nextPage(
-                                    duration: const Duration(milliseconds: 200),
-                                    curve: Curves.easeIn,
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xff7C81EC),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    elevation: 0,
-                                    padding: (width <= 550)
-                                        ? const EdgeInsets.symmetric(
-                                            horizontal: 30, vertical: 20)
-                                        : const EdgeInsets.symmetric(
-                                            horizontal: 30, vertical: 25),
-                                    textStyle: TextStyle(
-                                        fontSize: (width <= 550) ? 13 : 17)),
-                                child: const Text("NEXT")),
+                              onPressed: () {
+                                _controller.nextPage(
+                                  duration: const Duration(milliseconds: 200),
+                                  curve: Curves.easeIn,
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff022D35),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                elevation: 0,
+                                padding: (width <= 550)
+                                    ? const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 20)
+                                    : const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 25),
+                                textStyle: TextStyle(
+                                  fontSize: (width <= 550) ? 13 : 17,
+                                ),
+                              ),
+                              child: Text(
+                                'التالي',
+                                style: GoogleFonts.ibmPlexSansArabic(),
+                              ),
+                            ),
                           ],
                         ),
                       ),

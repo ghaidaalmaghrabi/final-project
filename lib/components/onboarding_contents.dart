@@ -10,22 +10,22 @@ class OnboardingContents {
   });
 }
 
-List<OnboardingContents> contents = [
+final List<OnboardingContents> contents = [
   OnboardingContents(
-    title: 'Teams Maker',
+    title: 'كُود تِك',
     image: '/Users/rahaf/final-project/assets/images/codetech-logo.png',
-    desc:
-        'An app to generate team groups based on a list of members and their preferences.',
+    desc: 'منصة بـ هوية عربية مختصة بعرض المشاريع البرمجيّة',
   ),
   OnboardingContents(
-    title: 'Hadi Albinsaad',
+    title: 'كُود تِك',
     image: '/Users/rahaf/final-project/assets/images/codetech-logo.png',
     desc:
-        'The leader who took the first step, The owner and developer of the idea.',
+        ' تُمكنك من مشاركة و عرض مشروعك كـ فيديو لاااااااا لازم نكتب شي صاحي ',
   ),
   OnboardingContents(
-    title: 'Rahaf Alharbi',
+    title: 'كُود تِك',
     image: '/Users/rahaf/final-project/assets/images/codetech-logo.png',
-    desc: 'The legend who made the design of the app.',
+    desc:
+        'قُم بالتسجيل و عرض مشاريعك، او تابع كـ زائر و تصفّح المشاريع البرمجيّة ',
   ),
 ];
