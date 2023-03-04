@@ -93,14 +93,14 @@ class _SignUpState extends State<SignUp> {
               deleteTextFields();
               log('Sign Up Button Pressed');
             },
-            child: const Text('Sign Up'),
+            child: const Text('Register'),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
               log('Sign In Button Pressed');
             },
-            child: const Text('Sign In'),
+            child: const Text('Log In'),
           ),
         ],
       ),
