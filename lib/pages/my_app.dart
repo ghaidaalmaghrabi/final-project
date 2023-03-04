@@ -1,7 +1,8 @@
-import 'package:final_project/pages/registration/sign_up.dart';
+
+import 'package:final_project/pages/onboarding.dart';
 import 'package:flutter/material.dart';
 
-import 'onboarding.dart';
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const onBording(),
+      home:  const onboarding(),
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,
