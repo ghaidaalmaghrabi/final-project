@@ -1,4 +1,3 @@
-import 'package:final_project/pages/registration/sign_up.dart';
 import 'package:flutter/material.dart';
 
 import 'onboarding.dart';

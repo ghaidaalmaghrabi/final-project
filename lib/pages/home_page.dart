@@ -86,24 +86,6 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-
-                ///
-                Container(
-                  color: Colors.green,
-                  width: 200.0,
-                  child: Column(
-                    children: const [],
-                  ),
-                ),
-
-                ///
-                Container(
-                  color: Colors.amber,
-                  width: 200.0,
-                  child: Column(
-                    children: const [],
-                  ),
-                ),
               ],
             ),
           ),
