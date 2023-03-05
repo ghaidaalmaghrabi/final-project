@@ -13,19 +13,17 @@ class OnboardingContents {
 final List<OnboardingContents> contents = [
   OnboardingContents(
     title: 'كُود تِك',
-    image: '/Users/rahaf/final-project/assets/images/codetech-logo.png',
+    image: 'assets/images/codetech-logo.png',
     desc: 'منصة بـ هوية عربية مختصة بعرض المشاريع البرمجيّة',
   ),
   OnboardingContents(
     title: 'كُود تِك',
-    image: '/Users/rahaf/final-project/assets/images/codetech-logo.png',
-    desc:
-        ' تُمكنك من مشاركة و عرض مشروعك كـ فيديو لاااااااا لازم نكتب شي صاحي ',
+    image: 'assets/images/codetech-logo.png',
+    desc: ' تُمكنك من مشاركة و عرض مشروعك كـ فيديو لاااااااا لازم نكتب شي صاحي ',
   ),
   OnboardingContents(
     title: 'كُود تِك',
-    image: '/Users/rahaf/final-project/assets/images/codetech-logo.png',
-    desc:
-        'قُم بالتسجيل و عرض مشاريعك، او تابع كـ زائر و تصفّح المشاريع البرمجيّة ',
+    image: 'assets/images/codetech-logo.png',
+    desc: 'قُم بالتسجيل و عرض مشاريعك، او تابع كـ زائر و تصفّح المشاريع البرمجيّة ',
   ),
 ];

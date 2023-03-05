@@ -33,9 +33,6 @@ class _RegisterPageState extends State<RegisterPage> {
         },
       });
       Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
-      setState(() {
-        userName = nameController.text;
-      });
     } catch (e) {
       log(e.toString());
     }

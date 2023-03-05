@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:final_project/models/Explore.dart';
+import 'package:final_project/pages/developers_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -58,74 +59,60 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomePage'),
+        title: const Text('الصفحة الرئيسية'),
       ),
       body: ListView(
         children: [
-          Text(
-            userName(),
-            style: const TextStyle(fontSize: 40.0),
-          ),
           const SizedBox(height: 20.0),
-          const Text('Most Like Project', style: TextStyle(fontSize: 40.0)),
+          const Align(
+              alignment: Alignment.topRight, child: Text('المشاريع الاكثر اعجابا', style: TextStyle(fontSize: 40.0))),
           Container(
             color: Colors.red,
             height: 250.0,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: [
-                for (var i in exploreSection)
-                  Container(
-                    color: Colors.blue,
-                    width: 200.0,
-                    child: Column(
-                      children: [
-                        Text(i.pName),
-                        Text(i.pImage),
-                        Text(i.pDescription),
-                      ],
-                    ),
-                  ),
-
+              children: const [
                 ///
-                Container(
-                  color: Colors.green,
-                  width: 200.0,
-                  child: Column(
-                    children: const [],
-                  ),
-                ),
-
+                /// In this section we will add the most liked projects ...
                 ///
-                Container(
-                  color: Colors.amber,
-                  width: 200.0,
-                  child: Column(
-                    children: const [],
-                  ),
-                ),
               ],
             ),
           ),
-          const Text(
-            'Explore',
-            style: TextStyle(fontSize: 40.0),
+          const Align(
+            alignment: Alignment.topRight,
+            child: Text(
+              'استكشف المشاريع',
+              style: TextStyle(fontSize: 40.0),
+            ),
           ),
           for (var i in exploreSection) ...[
-            Container(
-              decoration: const BoxDecoration(color: Colors.grey),
-              height: 200.0,
-              child: Row(children: [
-                const Placeholder(fallbackWidth: 30.0, fallbackHeight: 30.0),
-                const SizedBox(width: 10.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const DevelopersListPage()));
+              },
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                color: Colors.blue,
+                child: Column(
                   children: [
-                    Text(i.pName),
-                    Text(i.pDescription),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(i.pName),
+                        const SizedBox(width: 20.0),
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(i.pImage),
+                          radius: 30.0,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Text(i.pDescription, textAlign: TextAlign.right),
                   ],
                 ),
-              ]),
+              ),
             ),
             const SizedBox(height: 20.0),
           ],
