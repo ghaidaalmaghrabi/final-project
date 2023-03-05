@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: VideoSelectorWidget(),
+      home: const HomePage(),
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,
