@@ -176,15 +176,11 @@ class _HomePageState extends State<HomePage> {
                         Icons.home_outlined,
                         size: 45.0,
                       ),
-                      const Icon(
-                        Icons.data_saver_on_sharp,
-                        size: 45.0,
-                      ),
                       InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => VideoSelectorWidget()),
+                            MaterialPageRoute(builder: (context) => const AddNewProjectPage()),
                           );
                         },
                         child: const Icon(
