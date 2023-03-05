@@ -1,18 +1,18 @@
 import 'dart:developer';
 
 import 'package:final_project/pages/home_page.dart';
-import 'package:final_project/pages/registration/sign_in.dart';
+import 'package:final_project/pages/registration/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _RegisterPageState extends State<RegisterPage> {
   String userName = '';
 
   /// SUPABASE DECLARATION ...
@@ -97,7 +97,7 @@ class _SignUpState extends State<SignUp> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
               log('Sign In Button Pressed');
             },
             child: const Text('Log In'),

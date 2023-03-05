@@ -1,5 +1,5 @@
 import 'package:final_project/pages/home_page.dart';
-import 'package:final_project/pages/registration/sign_up.dart';
+import 'package:final_project/pages/registration/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -112,7 +112,7 @@ class _onboardingState extends State<onboarding> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SignUp(),
+                                builder: (context) => const RegisterPage(),
                               ),
                             );
                           },
