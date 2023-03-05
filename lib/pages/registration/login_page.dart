@@ -4,14 +4,14 @@ import 'package:final_project/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignInState extends State<SignIn> {
+class _LoginPageState extends State<LoginPage> {
   /// SUPABASE DECLARATION ...
   final supabase = Supabase.instance.client;
 
