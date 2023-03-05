@@ -1,4 +1,5 @@
 import 'package:final_project/pages/home_page.dart';
+import 'package:final_project/pages/registration/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -111,7 +112,7 @@ class _onboardingState extends State<onboarding> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomePage(),
+                                builder: (context) => const SignIn(),
                               ),
                             );
                           },
@@ -155,7 +156,8 @@ class _onboardingState extends State<onboarding> {
                               child: Text(
                                 'تخطي',
                                 style: GoogleFonts.ibmPlexSansArabic(
-                                    color: const Color(0xFF022D35),),
+                                  color: const Color(0xFF022D35),
+                                ),
                               ),
                             ),
                             ElevatedButton(
