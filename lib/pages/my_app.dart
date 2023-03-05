@@ -1,8 +1,5 @@
-
-import 'package:final_project/pages/onboarding.dart';
+import 'package:final_project/pages/profile_page.dart';
 import 'package:flutter/material.dart';
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,7 +7,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:  const onboarding(),
+      home: const ProfilePage(),
+      // home: const onboarding(),
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,
