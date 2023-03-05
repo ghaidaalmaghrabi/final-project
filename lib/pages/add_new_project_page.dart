@@ -10,12 +10,14 @@ class VideoSelectorWidget extends StatefulWidget {
 }
 
 class _VideoSelectorWidgetState extends State<VideoSelectorWidget> {
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final projectLinkController = TextEditingController();
   File? _selectedVideo;
   VideoPlayerController? _controller;
 
   Future<void> pickVideo() async {
     final selected = await ImagePicker().pickVideo(source: ImageSource.gallery);
-
     if (selected != null) {
       setState(() {
         _selectedVideo = File(selected.path);
@@ -35,21 +37,60 @@ class _VideoSelectorWidgetState extends State<VideoSelectorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 40,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('أضف مشروع جديد'),
+        actions: const [
+          Icon(Icons.close),
+          SizedBox(
+            width: 14,
+          ),
+        ],
+        centerTitle: true,
+      ),
+      body: Column(children: [
+        TextField(
+          controller: nameController,
+          decoration: const InputDecoration(
+            hintText: 'الاسم',
+            filled: true,
+            fillColor: Colors.white,
+          ),
         ),
+        const SizedBox(height: 40),
+        TextField(
+          controller: descriptionController,
+          decoration: const InputDecoration(
+            hintText: 'الوصف',
+            filled: true,
+            fillColor: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 40),
+        TextField(
+          controller: projectLinkController,
+          decoration: const InputDecoration(
+            hintText: 'رابط مشروع قيت هب',
+            filled: true,
+            fillColor: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 40),
         ElevatedButton(
           onPressed: pickVideo,
-          child: const Text('Select Video'),
+          child: const Text('تحميل مقطع الفيديو'),
         ),
-        if (_controller != null && _controller!.value.isInitialized)
-          AspectRatio(
-            aspectRatio: _controller!.value.aspectRatio,
-            child: VideoPlayer(_controller!),
-          ),
-      ],
+        ElevatedButton(
+          onPressed: () {},
+          child: const Text('اضف المشروع'),
+        ),
+        // if (_controller != null && _controller!.value.isInitialized)
+        //   AspectRatio(
+        //     aspectRatio: _controller!.value.aspectRatio,
+        //     child: VideoPlayer(_controller!),
+        //   ),
+      ]),
+      backgroundColor: Colors.white,
     );
   }
 }

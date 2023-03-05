@@ -5,6 +5,8 @@ import 'package:final_project/pages/developers_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'add_new_project_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -86,7 +88,9 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 20.0),
             const Align(
-                alignment: Alignment.topRight, child: Text('المشاريع الاكثر اعجابا', style: TextStyle(fontSize: 40.0))),
+                alignment: Alignment.topRight,
+                child: Text('المشاريع الاكثر اعجابا',
+                    style: TextStyle(fontSize: 40.0))),
             Container(
               color: Colors.red,
               height: 200.0,
@@ -113,7 +117,11 @@ class _HomePageState extends State<HomePage> {
                   for (var i in exploreSection) ...[
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const DevelopersListPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const DevelopersListPage()));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(20.0),
@@ -174,16 +182,22 @@ class _HomePageState extends State<HomePage> {
                         Icons.home_outlined,
                         size: 45.0,
                       ),
-                      const Icon(
-                        Icons.data_saver_on_sharp,
-                        size: 45.0,
-                      ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideoSelectorWidget()),
+                          );
+                        },
                         child: const Icon(
-                          Icons.person_outline_outlined,
+                          Icons.data_saver_on_sharp,
                           size: 45.0,
                         ),
+                      ),
+                      const Icon(
+                        Icons.person_outline_outlined,
+                        size: 45.0,
                       ),
                     ],
                   ),
