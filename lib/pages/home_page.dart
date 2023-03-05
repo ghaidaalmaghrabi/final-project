@@ -88,9 +88,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 20.0),
             const Align(
-                alignment: Alignment.topRight,
-                child: Text('المشاريع الاكثر اعجابا',
-                    style: TextStyle(fontSize: 40.0))),
+                alignment: Alignment.topRight, child: Text('المشاريع الاكثر اعجابا', style: TextStyle(fontSize: 40.0))),
             Container(
               color: Colors.red,
               height: 200.0,
@@ -117,11 +115,7 @@ class _HomePageState extends State<HomePage> {
                   for (var i in exploreSection) ...[
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const DevelopersListPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const DevelopersListPage()));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(20.0),
@@ -186,8 +180,7 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => VideoSelectorWidget()),
+                            MaterialPageRoute(builder: (context) => const AddNewProjectPage()),
                           );
                         },
                         child: const Icon(
