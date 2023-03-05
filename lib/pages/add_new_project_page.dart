@@ -37,12 +37,12 @@ class _VideoSelectorWidgetState extends State<VideoSelectorWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         ElevatedButton(
           onPressed: pickVideo,
-          child: Text('Select Video'),
+          child: const Text('Select Video'),
         ),
         if (_controller != null && _controller!.value.isInitialized)
           AspectRatio(
