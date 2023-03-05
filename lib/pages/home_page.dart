@@ -81,8 +81,8 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         Text(i.pName),
-                        Text(i.pDescription),
                         Text(i.pImage),
+                        Text(i.pDescription),
                       ],
                     ),
                   ),
