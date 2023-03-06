@@ -60,9 +60,11 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
 
     final fileName = _selectedVideo!.path.split('/').last;
     final bytes = await _selectedVideo!.readAsBytes();
+
     final response = await supabase.storage
         .from('demo-vid')
         .uploadBinary('videos/$fileName', bytes);
+
   }
 
   ///
