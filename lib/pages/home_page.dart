@@ -1,10 +1,9 @@
 import 'dart:developer';
 
 import 'package:final_project/models/Explore.dart';
-import 'package:final_project/pages/developers_list_page.dart';
 import 'package:final_project/pages/Bottom_Nav_Bar.dart';
+import 'package:final_project/pages/developers_list_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:widget_circular_animator/widget_circular_animator.dart';
 
@@ -71,7 +70,7 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => BottomNavBar(),
+                  builder: (context) => const BottomNavBar(),
                 ),
               );
             },
@@ -85,206 +84,181 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: Column(
+      body: ListView(
         children: [
-          //BottomNavBar(),
           Container(
             padding: const EdgeInsets.all(15.0),
             color: Colors.white,
-            child: Column(children: [
-              const Align(
-                  alignment: Alignment.topRight,
-                  child: MyTitle('المشاريع الاكثر إعجابًا')),
-              Container(
-                color: Colors.red,
-                height: 200.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: const [],
-                ),
-              ),
-              const Align(
-                alignment: Alignment.topRight,
-                child: MyTitle('استكشف المشاريع'),
-            ),
-            const SizedBox(height: 20.0),
-            const Align(
-                alignment: Alignment.topRight, child: Text('المشاريع الاكثر اعجابا', style: TextStyle(fontSize: 40.0))),
-            Container(
-              color: Colors.red,
-              height: 200.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: const [
-                  ///
-                  /// In this section we will add the most liked projects ...
-                  ///
-                ],
-              ),
-            ),
-            const Align(
-              alignment: Alignment.topRight,
-              child: Text(
-                'استكشف المشاريع',
-                style: TextStyle(fontSize: 40.0),
-              ),
-
-              SizedBox(
-                height: 450,
-                child: ListView(children: [
-                  for (var i in exploreSection) ...[
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DevelopersListPage(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 204, 218, 218),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(20),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              offset: const Offset(0, 3),
-                              blurRadius: 4,
-                            ),
-                          ],
-                        ),
-                        child: Column(children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ProjectTitle(i.pName),
-                              //Text(i.pName),
-                              const SizedBox(width: 20.0),
-                              WidgetCircularAnimator(
-                                innerColor: Color(0xff70788A),
-                                outerColor: Color(0xff455A64),
-                                innerAnimation: Curves.easeInOutBack,
-                                outerAnimation: Curves.easeInOutBack,
-                                size: 80,
-                                innerIconsSize: 3,
-                                outerIconsSize: 3,
-                                innerAnimationSeconds: 10,
-                                outerAnimationSeconds: 10,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: CircleAvatar(
-                                    backgroundColor: const Color(0xff034C5C),
-                                    radius: 32,
-                                    child: CircleAvatar(
-                                      backgroundImage: NetworkImage(i.pImage),
-                                      radius: 30,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20.0),
-                          Text(
-                            i.pDescription,
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                        ]),
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                  ],
-
-                ]),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Container(
-              padding: const EdgeInsets.all(15.0),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10.0,
-                    spreadRadius: 5.0,
+            child: Column(
+              children: [
+                const Align(alignment: Alignment.topRight, child: MyTitle('المشاريع الاكثر إعجابًا')),
+                Container(
+                  color: Colors.red,
+                  height: 200.0,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: const [],
                   ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Icon(
-                        Icons.home_outlined,
-                        size: 45.0,
-                      ),
+                ),
+                const Align(
+                  alignment: Alignment.topRight,
+                  child: MyTitle('استكشف المشاريع'),
+                ),
+                const SizedBox(height: 20.0),
+                SizedBox(
+                  height: 450,
+                  child: ListView(children: [
+                    for (var i in exploreSection) ...[
                       InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const AddNewProjectPage()),
+                            MaterialPageRoute(
+                              builder: (context) => const DevelopersListPage(),
+                            ),
                           );
                         },
-                        child: const Icon(
-                          Icons.data_saver_on_sharp,
-                          size: 45.0,
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 204, 218, 218),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(20),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                offset: const Offset(0, 3),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: Column(children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ProjectTitle(i.pName),
+                                const SizedBox(width: 20.0),
+                                WidgetCircularAnimator(
+                                  innerColor: const Color(0xff70788A),
+                                  outerColor: const Color(0xff455A64),
+                                  innerAnimation: Curves.easeInOutBack,
+                                  outerAnimation: Curves.easeInOutBack,
+                                  size: 80,
+                                  innerIconsSize: 3,
+                                  outerIconsSize: 3,
+                                  innerAnimationSeconds: 10,
+                                  outerAnimationSeconds: 10,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: CircleAvatar(
+                                      backgroundColor: const Color(0xff034C5C),
+                                      radius: 32,
+                                      child: CircleAvatar(
+                                        backgroundImage: NetworkImage(i.pImage),
+                                        radius: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20.0),
+                            Text(
+                              i.pDescription,
+                              textAlign: TextAlign.right,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ]),
                         ),
                       ),
-                      const Icon(
-                        Icons.person_outline_outlined,
+                      const SizedBox(height: 20.0),
+                    ],
+                  ]),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8.0),
+          Container(
+            padding: const EdgeInsets.all(15.0),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(20.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10.0,
+                  spreadRadius: 5.0,
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Icon(
+                      Icons.home_outlined,
+                      size: 45.0,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AddNewProjectPage()),
+                        );
+                      },
+                      child: const Icon(
+                        Icons.data_saver_on_sharp,
                         size: 45.0,
                       ),
-                    ],
-                  ),
-                ],
-              ),
-              //const SizedBox(height: 8.0),
-              // Container(
-              //     padding: const EdgeInsets.all(15.0),
-              //     decoration: const BoxDecoration(
-              //       color: Colors.white,
-              //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              //       boxShadow: [
-              //         BoxShadow(
-              //             color: Colors.black12,
-              //             blurRadius: 10.0,
-              //             spreadRadius: 5.0)
-              //       ],
-              //     ),
-              //     child: Stack(children: [
-              //       Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //           children: [
-              //             const Icon(Icons.home_outlined, size: 45.0),
-              //             InkWell(
-              //                 onTap: () {
-              //                   Navigator.push(
-              //                       context,
-              //                       MaterialPageRoute(
-              //                           builder: (context) => AddNewProject()));
-              //                 },
-              //                 child: const Icon(Icons.data_saver_on_sharp,
-              //                     size: 45.0)),
-              //             const Icon(Icons.person_outline_outlined, size: 45.0)
-              //           ])
-              //     ])),
-            ]),
+                    ),
+                    const Icon(
+                      Icons.person_outline_outlined,
+                      size: 45.0,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            //const SizedBox(height: 8.0),
+            // Container(
+            //     padding: const EdgeInsets.all(15.0),
+            //     decoration: const BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            //       boxShadow: [
+            //         BoxShadow(
+            //             color: Colors.black12,
+            //             blurRadius: 10.0,
+            //             spreadRadius: 5.0)
+            //       ],
+            //     ),
+            //     child: Stack(children: [
+            //       Row(
+            //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //           children: [
+            //             const Icon(Icons.home_outlined, size: 45.0),
+            //             InkWell(
+            //                 onTap: () {
+            //                   Navigator.push(
+            //                       context,
+            //                       MaterialPageRoute(
+            //                           builder: (context) => AddNewProject()));
+            //                 },
+            //                 child: const Icon(Icons.data_saver_on_sharp,
+            //                     size: 45.0)),
+            //             const Icon(Icons.person_outline_outlined, size: 45.0)
+            //           ])
+            //     ])),
           ),
         ],
       ),
