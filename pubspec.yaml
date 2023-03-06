@@ -41,6 +41,9 @@ dependencies:
   image_picker: ^0.8.6+4
   widget_circular_animator: ^1.0.0
   curved_navigation_bar: ^1.0.3
+  dropdown_button2: ^2.0.0
+  flutter_animated_button: ^2.0.3
+  animated: ^2.0.0
 
 dev_dependencies:
   flutter_test:
