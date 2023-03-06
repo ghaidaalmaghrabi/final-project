@@ -7,14 +7,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:video_player/video_player.dart';
 
-class AddNewProject extends StatefulWidget {
-  const AddNewProject({super.key});
+class AddNewProjectPage extends StatefulWidget {
+  const AddNewProjectPage({super.key});
 
   @override
-  _AddNewProjectState createState() => _AddNewProjectState();
+  _AddNewProjectPageState createState() => _AddNewProjectPageState();
 }
 
-class _AddNewProjectState extends State<AddNewProject> {
+class _AddNewProjectPageState extends State<AddNewProjectPage> {
   /// SUPABASE DECLARATION ...
   final supabase = Supabase.instance.client;
 
