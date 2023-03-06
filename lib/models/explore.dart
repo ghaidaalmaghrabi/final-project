@@ -47,3 +47,37 @@ class UserInformation {
     };
   }
 }
+
+class AddNewProject {
+  final String pId;
+  final String pName;
+  final String pDescription;
+  final String gitHubLink;
+
+  AddNewProject({
+    required this.pId,
+    required this.pName,
+    required this.pDescription,
+    required this.gitHubLink,
+  });
+
+  /// This method is used to convert the json data to the AddNewProject model.
+  factory AddNewProject.fromJson(Map<String, dynamic> json) {
+    return AddNewProject(
+      pId: json['pId'],
+      pName: json['pName'],
+      pDescription: json['pDescription'],
+      gitHubLink: json['gitHubLink'],
+    );
+  }
+
+  /// This method is used to convert the AddNewProject model to the json data.
+  Map<String, dynamic> toJson() {
+    return {
+      'pId': pId,
+      'pName': pName,
+      'pDescription': pDescription,
+      'gitHubLink': gitHubLink,
+    };
+  }
+}

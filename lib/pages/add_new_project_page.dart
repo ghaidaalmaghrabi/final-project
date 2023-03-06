@@ -1,18 +1,32 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:final_project/models/explore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:video_player/video_player.dart';
 
 class AddNewProject extends StatefulWidget {
+  const AddNewProject({super.key});
+
   @override
   _AddNewProjectState createState() => _AddNewProjectState();
 }
 
 class _AddNewProjectState extends State<AddNewProject> {
+  /// SUPABASE DECLARATION ...
+  final supabase = Supabase.instance.client;
+
+  /// DROPDOWN MENU FIRST OPTION ...
+  String _selectedOption = 'Flutter';
+
+  /// TEXTFIELD CONTROLLERS ...
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final projectLinkController = TextEditingController();
+
+  /// PICK VIDEO FUNCTION ...
   File? _selectedVideo;
   VideoPlayerController? _controller;
 
@@ -22,6 +36,7 @@ class _AddNewProjectState extends State<AddNewProject> {
       setState(() {
         _selectedVideo = File(selected.path);
         _controller = VideoPlayerController.file(_selectedVideo!);
+        // ignore: prefer-async-await
         _controller!.initialize().then(() {
               setState(() {});
             } as FutureOr Function(void value));
@@ -29,10 +44,15 @@ class _AddNewProjectState extends State<AddNewProject> {
     }
   }
 
+  /// DISPOSE CONTROLLERS ...
+
   @override
   void dispose() {
     super.dispose();
     _controller?.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
+    projectLinkController.dispose();
   }
 
   @override
@@ -48,48 +68,75 @@ class _AddNewProjectState extends State<AddNewProject> {
         ],
         centerTitle: true,
       ),
-      body: Column(children: [
-        TextField(
-          controller: nameController,
-          decoration: const InputDecoration(
-            hintText: 'الاسم',
-            filled: true,
-            fillColor: Colors.white,
+      body: Column(
+        children: [
+          TextField(
+            controller: nameController,
+            decoration: const InputDecoration(
+              hintText: 'الاسم',
+              filled: true,
+              fillColor: Colors.white,
+            ),
           ),
-        ),
-        const SizedBox(height: 40),
-        TextField(
-          controller: descriptionController,
-          decoration: const InputDecoration(
-            hintText: 'الوصف',
-            filled: true,
-            fillColor: Colors.white,
+          const SizedBox(height: 40),
+          TextField(
+            controller: descriptionController,
+            decoration: const InputDecoration(
+              hintText: 'الوصف',
+              filled: true,
+              fillColor: Colors.white,
+            ),
           ),
-        ),
-        const SizedBox(height: 40),
-        TextField(
-          controller: projectLinkController,
-          decoration: const InputDecoration(
-            hintText: 'رابط مشروع قيت هب',
-            filled: true,
-            fillColor: Colors.white,
+          const SizedBox(height: 40),
+          TextField(
+            controller: projectLinkController,
+            decoration: const InputDecoration(
+              hintText: 'رابط مشروع قيت هب',
+              filled: true,
+              fillColor: Colors.white,
+            ),
           ),
-        ),
-        const SizedBox(height: 40),
-        ElevatedButton(
-          onPressed: pickVideo,
-          child: const Text('تحميل مقطع الفيديو'),
-        ),
-        ElevatedButton(
-          onPressed: () {},
-          child: const Text('اضف المشروع'),
-        ),
-        // if (_controller != null && _controller!.value.isInitialized)
-        //   AspectRatio(
-        //     aspectRatio: _controller!.value.aspectRatio,
-        //     child: VideoPlayer(_controller!),
-        //   ),
-      ]),
+          DropdownButton<String>(
+            items: <String>['Flutter', 'Swift', 'UI / UX'].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(value: value, child: Text(value));
+            }).toList(),
+            value: _selectedOption,
+            hint: const Text('Select an option'),
+            onChanged: (newValue) {
+              setState(() {
+                _selectedOption = newValue!;
+              });
+              print(newValue);
+            },
+            style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
+            icon: const Icon(
+              Icons.arrow_drop_down,
+            ),
+          ),
+          const SizedBox(height: 40),
+          ElevatedButton(
+            onPressed: pickVideo,
+            child: const Text('تحميل مقطع الفيديو'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              print(_selectedOption);
+              final project = AddNewProject(
+                pId: _selectedOption,
+                pName: nameController.text,
+                pDescription: descriptionController.text,
+                gitHubLink: projectLinkController.text,
+              );
+              final response = await supabase.from('newProject').insert(
+                [
+                  project.toJson(),
+                ],
+              );
+            },
+            child: const Text('اضف المشروع'),
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
     );
   }
