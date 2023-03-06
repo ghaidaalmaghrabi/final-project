@@ -36,14 +36,27 @@ class _AddNewProjectState extends State<AddNewProject> {
       setState(() {
         _selectedVideo = File(selected.path);
         _controller = VideoPlayerController.file(_selectedVideo!);
-        // ignore: prefer-async-await
-        _controller!.initialize().then(() {
-              setState(() {});
-            } as FutureOr Function(void value));
+        _controller!.initialize().then((_) {
+          setState(() {});
+        });
       });
     }
   }
 
+  /// UPLOAD VIDEO TO SUPABASE FUNCTION ...
+  ///
+
+  Future<void> uploadVideoToSupabase() async {
+    if (_selectedVideo == null) {
+      return;
+    }
+
+    final fileName = _selectedVideo!.path.split('/').last;
+    final bytes = await _selectedVideo!.readAsBytes();
+    final response = await supabase.storage.from('demo-vid').uploadBinary('videos/$fileName', bytes);
+  }
+
+  ///
   /// DISPOSE CONTROLLERS ...
 
   @override
@@ -132,6 +145,8 @@ class _AddNewProjectState extends State<AddNewProject> {
                   project.toJson(),
                 ],
               );
+
+              await uploadVideoToSupabase();
             },
             child: const Text('اضف المشروع'),
           ),
