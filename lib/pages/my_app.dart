@@ -1,5 +1,4 @@
-import 'package:final_project/pages/home_page.dart';
-import 'package:final_project/pages/onboarding.dart';
+import 'package:final_project/pages/developer_projects_page.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -8,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const onboarding(),
+      home: const DeveloperProjectsPage(),
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,
