@@ -152,6 +152,14 @@ class _HomePageState extends State<HomePage> {
                                   child: VideoPlayer(_controller!),
                                 ),
                               ),
+                              Row(
+                                children: const [
+                                  Icon(
+                                    Icons.favorite_border_outlined,
+                                    size: 40.0,
+                                  )
+                                ],
+                              )
                             ],
                           ),
                         ),
