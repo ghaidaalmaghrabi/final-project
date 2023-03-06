@@ -142,7 +142,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                         iconStyleData: const IconStyleData(
                             icon: Icon(Icons.keyboard_arrow_down_rounded),
                             iconDisabledColor: Colors.grey,
-                            iconEnabledColor: Colors.red,
+                            iconEnabledColor: Colors.grey,
                             iconSize: 20),
                         dropdownStyleData: DropdownStyleData(
                           maxHeight: 200,
@@ -194,37 +194,29 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      height: 50,
                       width: 160,
-                      child: MyButton(
-                        title: 'تحميل مقطع الفيديو',
-                        onTap: pickVideo,
-                      ),
-                    ),
-                    SizedBox(
                       height: 50,
-                      width: 160,
                       child: MyButton(
                         title: 'اضف المشروع',
                         onTap: () async {
                           print(_selectedOption);
                           final project = AddNewProject(
-                            pId: _selectedOption,
-                            pName: nameController.text,
-                            pDescription: descriptionController.text,
-                            gitHubLink: projectLinkController.text,
-                          );
-                          final response =
-                              await supabase.from('newProject').insert(
-                            [
-                              project.toJson(),
-                            ],
-                          );
-
+                              pId: _selectedOption,
+                              pName: nameController.text,
+                              pDescription: descriptionController.text,
+                              gitHubLink: projectLinkController.text);
+                          final response = await supabase
+                              .from('newProject')
+                              .insert([project.toJson()]);
                           await uploadVideoToSupabase();
                         },
                       ),
                     ),
+                    SizedBox(
+                        width: 160,
+                        height: 50,
+                        child: MyButton(
+                            title: 'تحميل مقطع الفيديو', onTap: pickVideo)),
                   ],
                 ),
               ),
