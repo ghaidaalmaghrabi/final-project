@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoSelectorWidget extends StatefulWidget {
+class AddNewProject extends StatefulWidget {
   @override
-  _VideoSelectorWidgetState createState() => _VideoSelectorWidgetState();
+  _AddNewProjectState createState() => _AddNewProjectState();
 }
 
-class _VideoSelectorWidgetState extends State<VideoSelectorWidget> {
+class _AddNewProjectState extends State<AddNewProject> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final projectLinkController = TextEditingController();

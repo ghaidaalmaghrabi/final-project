@@ -4,6 +4,8 @@ import 'package:final_project/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../Bottom_Nav_Bar.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -22,11 +24,13 @@ class _LoginPageState extends State<LoginPage> {
   /// SIGN IN FUNCTION ...
   Future<void> singIn() async {
     try {
-      await supabase.auth.signInWithPassword(email: emailComtroller.text, password: passwordComtroller.text);
+      await supabase.auth.signInWithPassword(
+          email: emailComtroller.text, password: passwordComtroller.text);
+
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomePage(),
+          builder: (context) => BottomNavBar(),
         ),
       );
     } catch (e) {

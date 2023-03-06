@@ -2,9 +2,14 @@ import 'dart:developer';
 
 import 'package:final_project/models/Explore.dart';
 import 'package:final_project/pages/developers_list_page.dart';
+import 'package:final_project/pages/Bottom_Nav_Bar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:widget_circular_animator/widget_circular_animator.dart';
 
+import '../components/project_title.dart';
+import '../components/title.dart';
 import 'add_new_project_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,152 +65,159 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('الصفحة الرئيسية'),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         Navigator.push(context, MaterialPageRoute(builder: (context) => VideoSelectorWidget()));
-      //       },
-      //       icon: const Icon(Icons.add),
-      //     ),
-      //   ],
-      // ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
-            Align(
-              alignment: Alignment.topRight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('${userName()},مرحباً '),
-                  Image.asset('assets/images/codetech-logo.png', height: 100.0),
-                ],
+      appBar: AppBar(
+        leading: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BottomNavBar(),
+                ),
+              );
+            },
+            child: const Icon(Icons.menu, color: Colors.grey)),
+        automaticallyImplyLeading: false,
+        title: Image.asset('assets/images/LogoName.png', height: 50),
+        actions: [
+          Image.asset('assets/images/LogoPic.png', width: 50, height: 50),
+          const SizedBox(width: 10),
+        ],
+        backgroundColor: Colors.white,
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          //BottomNavBar(),
+          Container(
+            padding: const EdgeInsets.all(15.0),
+            color: Colors.white,
+            child: Column(children: [
+              const Align(
+                  alignment: Alignment.topRight,
+                  child: MyTitle('المشاريع الاكثر إعجابًا')),
+              Container(
+                color: Colors.red,
+                height: 200.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: const [],
+                ),
               ),
-            ),
-            const SizedBox(height: 20.0),
-            const Align(
+              const Align(
                 alignment: Alignment.topRight,
-                child: Text('المشاريع الاكثر اعجابا',
-                    style: TextStyle(fontSize: 40.0))),
-            Container(
-              color: Colors.red,
-              height: 200.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: const [
-                  ///
-                  /// In this section we will add the most liked projects ...
-                  ///
-                ],
+                child: MyTitle('استكشف المشاريع'),
               ),
-            ),
-            const Align(
-              alignment: Alignment.topRight,
-              child: Text(
-                'استكشف المشاريع',
-                style: TextStyle(fontSize: 40.0),
-              ),
-            ),
-            SizedBox(
-              height: 350.0,
-              child: ListView(
-                children: [
+
+              SizedBox(
+                height: 450,
+                child: ListView(children: [
                   for (var i in exploreSection) ...[
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const DevelopersListPage()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DevelopersListPage(),
+                          ),
+                        );
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        color: Colors.blue,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(i.pName),
-                                const SizedBox(width: 20.0),
-                                CircleAvatar(
-                                  backgroundImage: NetworkImage(i.pImage),
-                                  radius: 30.0,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            Text(
-                              i.pDescription,
-                              textAlign: TextAlign.right,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 204, 218, 218),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(20),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              offset: const Offset(0, 3),
+                              blurRadius: 4,
                             ),
                           ],
                         ),
+                        child: Column(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ProjectTitle(i.pName),
+                              //Text(i.pName),
+                              const SizedBox(width: 20.0),
+                              WidgetCircularAnimator(
+                                innerColor: Color(0xff70788A),
+                                outerColor: Color(0xff455A64),
+                                innerAnimation: Curves.easeInOutBack,
+                                outerAnimation: Curves.easeInOutBack,
+                                size: 80,
+                                innerIconsSize: 3,
+                                outerIconsSize: 3,
+                                innerAnimationSeconds: 10,
+                                outerAnimationSeconds: 10,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CircleAvatar(
+                                    backgroundColor: const Color(0xff034C5C),
+                                    radius: 32,
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(i.pImage),
+                                      radius: 30,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20.0),
+                          Text(
+                            i.pDescription,
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ]),
                       ),
                     ),
                     const SizedBox(height: 20.0),
                   ],
-                ],
+                ]),
               ),
-            ),
-            const SizedBox(height: 8.0),
-            Container(
-              padding: const EdgeInsets.all(15.0),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10.0,
-                    spreadRadius: 5.0,
-                  ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Icon(
-                        Icons.home_outlined,
-                        size: 45.0,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VideoSelectorWidget()),
-                          );
-                        },
-                        child: const Icon(
-                          Icons.data_saver_on_sharp,
-                          size: 45.0,
-                        ),
-                      ),
-                      const Icon(
-                        Icons.person_outline_outlined,
-                        size: 45.0,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+              //const SizedBox(height: 8.0),
+              // Container(
+              //     padding: const EdgeInsets.all(15.0),
+              //     decoration: const BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              //       boxShadow: [
+              //         BoxShadow(
+              //             color: Colors.black12,
+              //             blurRadius: 10.0,
+              //             spreadRadius: 5.0)
+              //       ],
+              //     ),
+              //     child: Stack(children: [
+              //       Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //           children: [
+              //             const Icon(Icons.home_outlined, size: 45.0),
+              //             InkWell(
+              //                 onTap: () {
+              //                   Navigator.push(
+              //                       context,
+              //                       MaterialPageRoute(
+              //                           builder: (context) => AddNewProject()));
+              //                 },
+              //                 child: const Icon(Icons.data_saver_on_sharp,
+              //                     size: 45.0)),
+              //             const Icon(Icons.person_outline_outlined, size: 45.0)
+              //           ])
+              //     ])),
+            ]),
+          ),
+        ],
       ),
     );
   }
