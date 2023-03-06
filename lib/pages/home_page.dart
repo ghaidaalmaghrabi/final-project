@@ -5,9 +5,9 @@ import 'package:final_project/pages/developers_list_page.dart';
 import 'package:final_project/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:video_player/video_player.dart';
 import 'package:widget_circular_animator/widget_circular_animator.dart';
 
-import '../components/app_bar.dart';
 import '../components/project_title.dart';
 import '../components/title.dart';
 import 'add_new_project_page.dart';
@@ -21,6 +21,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Explore> exploreSection = [];
+
+  VideoPlayerController? _controller;
 
   /// SUPABASE DECLARATION ...
   final supabase = Supabase.instance.client;
@@ -56,10 +58,27 @@ class _HomePageState extends State<HomePage> {
     return newExploreSection;
   }
 
+  /// THIS METHOD IS USED TO GET VIDEO FROM SUPABASE ...
+  getVideo() {
+    return supabase.storage.from('demo-vid').getPublicUrl('rofatota');
+  }
+
+  /// INIT STATE ...
   @override
   void initState() {
     getExploreSection();
+    _controller = VideoPlayerController.network(getVideo());
+    _controller!.initialize().then((_) {
+      setState(() {});
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller!.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,15 +86,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SettingsPage(),
-                ),
-              );
-            },
-            child: const Icon(Icons.menu, color: Colors.grey)),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SettingsPage(),
+              ),
+            );
+          },
+          child: const Icon(
+            Icons.menu,
+            color: Colors.grey,
+          ),
+        ),
         automaticallyImplyLeading: false,
         title: Image.asset('assets/images/LogoName.png', height: 50),
         actions: [
@@ -93,14 +116,47 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 const Align(
-                    alignment: Alignment.topRight,
-                    child: MyTitle('المشاريع الاكثر إعجابًا')),
+                  alignment: Alignment.topRight,
+                  child: MyTitle('المشاريع الاكثر إعجابًا'),
+                ),
                 Container(
                   color: Colors.red,
-                  height: 200.0,
+                  height: 250.0,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: const [],
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          print(getVideo());
+                          log(_controller.toString());
+                          _controller!.play();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          color: Colors.blue,
+                          width: 150.0,
+                          margin: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              const Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  'اسم المشروع',
+                                ),
+                              ),
+                              SizedBox(
+                                width: 150.0,
+                                height: 150.0,
+                                child: AspectRatio(
+                                  aspectRatio: _controller!.value.aspectRatio,
+                                  child: VideoPlayer(_controller!),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const Align(
@@ -216,8 +272,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const AddNewProjectPage()),
+                          MaterialPageRoute(builder: (context) => const AddNewProjectPage()),
                         );
                       },
                       child: const Icon(
