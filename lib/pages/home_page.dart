@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:final_project/models/Explore.dart';
 import 'package:final_project/pages/developers_list_page.dart';
+import 'package:final_project/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:widget_circular_animator/widget_circular_animator.dart';
@@ -64,15 +65,36 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsPage(),
+                ),
+              );
+            },
+            child: const Icon(Icons.menu, color: Colors.grey)),
+        automaticallyImplyLeading: false,
+        title: Image.asset('assets/images/LogoName.png', height: 50),
+        actions: [
+          Image.asset('assets/images/LogoPic.png', width: 50, height: 50),
+          const SizedBox(width: 10),
+        ],
+        backgroundColor: Colors.white,
+        centerTitle: true,
+      ),
       body: ListView(
         children: [
-          const CTAppBar(),
           Container(
             padding: const EdgeInsets.all(15.0),
             color: Colors.white,
             child: Column(
               children: [
-                const Align(alignment: Alignment.topRight, child: MyTitle('المشاريع الاكثر إعجابًا')),
+                const Align(
+                    alignment: Alignment.topRight,
+                    child: MyTitle('المشاريع الاكثر إعجابًا')),
                 Container(
                   color: Colors.red,
                   height: 200.0,
@@ -194,7 +216,8 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const AddNewProjectPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const AddNewProjectPage()),
                         );
                       },
                       child: const Icon(
