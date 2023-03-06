@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../components/onboarding_contents.dart';
 import '../models/size_config.dart';
+import 'Bottom_Nav_Bar.dart';
 
 class onboarding extends StatefulWidget {
   const onboarding({Key? key}) : super(key: key);
@@ -122,9 +123,12 @@ class _onboardingState extends State<onboarding> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               padding: (width <= 550)
-                                  ? const EdgeInsets.symmetric(horizontal: 100, vertical: 20)
-                                  : EdgeInsets.symmetric(horizontal: width * 0.2, vertical: 25),
-                              textStyle: TextStyle(fontSize: (width <= 550) ? 13 : 17)),
+                                  ? const EdgeInsets.symmetric(
+                                      horizontal: 100, vertical: 20)
+                                  : EdgeInsets.symmetric(
+                                      horizontal: width * 0.2, vertical: 25),
+                              textStyle: TextStyle(
+                                  fontSize: (width <= 550) ? 13 : 17)),
                           child: Text(
                             'البدء',
                             style: GoogleFonts.ibmPlexSansArabic(fontSize: 14),
@@ -140,12 +144,15 @@ class _onboardingState extends State<onboarding> {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const HomePage()),
+                                  MaterialPageRoute(
+                                      builder: (context) => BottomNavBar()),
                                 );
                               },
                               style: TextButton.styleFrom(
                                 elevation: 0,
-                                textStyle: TextStyle(fontSize: (width <= 550) ? 13 : 17, fontWeight: FontWeight.w600),
+                                textStyle: TextStyle(
+                                    fontSize: (width <= 550) ? 13 : 17,
+                                    fontWeight: FontWeight.w600),
                               ),
                               child: Text(
                                 'تخطي',
@@ -168,8 +175,10 @@ class _onboardingState extends State<onboarding> {
                                 ),
                                 elevation: 0,
                                 padding: (width <= 550)
-                                    ? const EdgeInsets.symmetric(horizontal: 30, vertical: 20)
-                                    : const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+                                    ? const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 20)
+                                    : const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 25),
                                 textStyle: TextStyle(
                                   fontSize: (width <= 550) ? 13 : 17,
                                 ),

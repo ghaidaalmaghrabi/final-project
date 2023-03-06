@@ -5,6 +5,8 @@ import 'package:final_project/pages/registration/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../Bottom_Nav_Bar.dart';
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -27,12 +29,20 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> signUp() async {
     try {
-      await supabase.auth.signUp(email: emailController.text, password: passwordController.text, data: {
-        'data': {
-          'name': nameController.text,
-        },
-      });
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+      await supabase.auth.signUp(
+          email: emailController.text,
+          password: passwordController.text,
+          data: {
+            'data': {
+              'name': nameController.text,
+            },
+          });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavBar(),
+        ),
+      );
     } catch (e) {
       log(e.toString());
     }
@@ -94,7 +104,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
               log('Sign In Button Pressed');
             },
             child: const Text('Log In'),
