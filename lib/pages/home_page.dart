@@ -233,36 +233,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            //const SizedBox(height: 8.0),
-            // Container(
-            //     padding: const EdgeInsets.all(15.0),
-            //     decoration: const BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            //       boxShadow: [
-            //         BoxShadow(
-            //             color: Colors.black12,
-            //             blurRadius: 10.0,
-            //             spreadRadius: 5.0)
-            //       ],
-            //     ),
-            //     child: Stack(children: [
-            //       Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //           children: [
-            //             const Icon(Icons.home_outlined, size: 45.0),
-            //             InkWell(
-            //                 onTap: () {
-            //                   Navigator.push(
-            //                       context,
-            //                       MaterialPageRoute(
-            //                           builder: (context) => AddNewProject()));
-            //                 },
-            //                 child: const Icon(Icons.data_saver_on_sharp,
-            //                     size: 45.0)),
-            //             const Icon(Icons.person_outline_outlined, size: 45.0)
-            //           ])
-            //     ])),
           ),
         ],
       ),
