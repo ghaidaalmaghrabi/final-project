@@ -55,6 +55,7 @@ dependencies:
   file_picker: ^5.2.5
   profile_wheel: ^0.0.6
   font_awesome_flutter: ^10.4.0
+  slimy_card: ^1.0.4
 
 dev_dependencies:
   flutter_test:
