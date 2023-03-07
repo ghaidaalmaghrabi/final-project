@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:final_project/models/explore.dart';
 import 'package:final_project/pages/settings.dart';
@@ -13,6 +15,7 @@ import 'package:video_player/video_player.dart';
 import '../components/animated_textfield.dart';
 import '../components/ct_elevatedButton.dart';
 import '../components/ct_textfield_title.dart';
+import '../components/upload_vid_button.dart';
 
 class AddNewProjectPage extends StatefulWidget {
   const AddNewProjectPage({super.key});
@@ -24,7 +27,20 @@ class AddNewProjectPage extends StatefulWidget {
 class _AddNewProjectPageState extends State<AddNewProjectPage> {
   /// SUPABASE DECLARATION ...
   final supabase = Supabase.instance.client;
-  final userName = Supabase.instance.client.auth.currentUser?.userMetadata!['data']['name'];
+
+  /// This method is used to get the user name from the user metadata in Supabase.
+  String userName() {
+    final userMetadata = supabase.auth.currentUser?.userMetadata;
+    final name = userMetadata?['data']['name'];
+
+    if (name != null) {
+      log(name.toString());
+      return name.toString();
+    } else {
+      log('Name not found in user metadata.');
+      return '';
+    }
+  }
 
   /// DROPDOWN MENU FIRST OPTION ...
   String _selectedOption = 'Flutter';
@@ -46,6 +62,21 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
         _controller = VideoPlayerController.file(_selectedVideo!);
         _controller!.initialize().then((_) {
           setState(() {});
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.leftSlide,
+            headerAnimationLoop: false,
+            dialogType: DialogType.success,
+            showCloseIcon: true,
+            title: 'تم تحميل الفيديو بنجاح',
+            btnOkOnPress: () {
+              debugPrint('OnClcik');
+            },
+            btnOkIcon: Icons.check_circle,
+            onDismissCallback: (type) {
+              debugPrint('Dialog Dissmiss from callback $type');
+            },
+          ).show();
         });
       });
     }
@@ -124,9 +155,8 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                             _selectedOption = newValue!;
                           });
                           print(newValue);
-                          print(userName);
                         },
-                        style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.normal),
+                        style: const TextStyle(color: Colors.blueGrey, fontSize: 16, fontWeight: FontWeight.normal),
                         isExpanded: true,
                         buttonStyleData: ButtonStyleData(
                           height: 40,
@@ -166,7 +196,11 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
               const CTTextFieldTittle('الإسم'),
               SizedBox(
                 width: 400,
-                child: AnimatedTextField(label: '.. اسم المشروع', suffix: null, xController: nameController),
+                child: AnimatedTextField(
+                  label: '.. اسم المشروع',
+                  suffix: null,
+                  xController: nameController,
+                ),
               ),
               const CTTextFieldTittle('الوصف'),
               SizedBox(
@@ -199,24 +233,31 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                     ),
                     SizedBox(
                       width: 160,
-                      height: 50,
-                      child: MyButton(
-                        title: 'اضف المشروع',
-                        onTap: () async {
-                          print(_selectedOption);
-                          final project = AddNewProject(
-                            pId: _selectedOption,
-                            pName: nameController.text,
-                            pDescription: descriptionController.text,
-                            gitHubLink: projectLinkController.text,
-                            userName: userName,
-                          );
-                          await uploadVideoToSupabase();
-                        },
-                      ),
+                      height: 40,
+                      child: UploadVidButton(title: 'تحميل مقطع الفيديو', onTap: pickVideo),
                     ),
-                    SizedBox(width: 160, height: 50, child: MyButton(title: 'تحميل مقطع الفيديو', onTap: pickVideo)),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(14),
+                child: SizedBox(
+                  height: 40,
+                  child: MyButton(
+                    title: 'اضف المشروع',
+                    onTap: () async {
+                      print(_selectedOption);
+                      final project = AddNewProject(
+                        pId: _selectedOption,
+                        pName: nameController.text,
+                        pDescription: descriptionController.text,
+                        gitHubLink: projectLinkController.text,
+                        userName: userName(),
+                      );
+                      final response = await supabase.from('newProject').insert([project.toJson()]);
+                      await uploadVideoToSupabase();
+                    },
+                  ),
                 ),
               ),
             ],
