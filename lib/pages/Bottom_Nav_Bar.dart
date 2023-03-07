@@ -3,6 +3,7 @@ import 'package:final_project/pages/settings.dart';
 import 'package:flutter/material.dart';
 
 import 'add_new_project_page.dart';
+import 'developer_projects_page.dart';
 import 'home_page.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -13,8 +14,8 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  var currentIndex = 0;
-  final pages = [const SettingsPage(), const AddNewProjectPage(), const HomePage()];
+  var currentIndex = 2;
+  final pages = [MyHomePage(), const AddNewProjectPage(), const HomePage()];
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
