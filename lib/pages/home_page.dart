@@ -85,13 +85,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
             leading: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SettingsPage()));
-                },
-                child: const Icon(Icons.menu, color: Colors.grey)),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsPage()));
+              },
+              child: const Icon(Icons.list, color: Colors.grey),
+            ),
             automaticallyImplyLeading: false,
             title: Image.asset('assets/images/LogoName.png', height: 50),
             actions: [
