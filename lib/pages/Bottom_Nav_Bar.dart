@@ -14,7 +14,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   var currentIndex = 0;
-  final pages = [const HomePage(), const AddNewProjectPage(), const SettingsPage()];
+  final pages = [const SettingsPage(), const AddNewProjectPage(), const HomePage()];
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
@@ -26,9 +26,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavigationKey,
         items: const [
-          Icon(Icons.house_siding_rounded, size: 30, color: Colors.white),
+          Icon(Icons.person_outline, size: 30, color: Colors.white),
           Icon(Icons.add, size: 30, color: Colors.white),
-          Icon(Icons.settings_outlined, size: 30, color: Colors.white),
+          Icon(Icons.house_siding_rounded, size: 30, color: Colors.white),
         ],
         index: currentIndex,
         color: const Color(0xff434B53),

@@ -1,4 +1,3 @@
-import 'package:final_project/pages/home_page.dart';
 import 'package:final_project/pages/onboarding.dart';
 import 'package:flutter/material.dart';
 

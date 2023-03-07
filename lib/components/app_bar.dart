@@ -16,7 +16,7 @@ class CTAppBar extends StatelessWidget {
               ),
             );
           },
-          child: const Icon(Icons.menu, color: Colors.grey)),
+          child: const Icon(Icons.settings, color: Colors.grey)),
       automaticallyImplyLeading: false,
       title: Image.asset('assets/images/LogoName.png', height: 50),
       actions: [
