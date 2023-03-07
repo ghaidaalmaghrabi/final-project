@@ -12,19 +12,19 @@ class MyButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 50,
+        height: 30,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             gradient: const LinearGradient(colors: [
-              Color.fromRGBO(74, 77, 139, 1),
-              Color.fromRGBO(71, 74, 125, 0.6),
+              Color.fromRGBO(74, 139, 86, 1),
+              Color.fromRGBO(71, 125, 120, 0.6),
             ])),
         child: Center(
           child: Text(
             title,
-            style: GoogleFonts.mukta(
+            style: GoogleFonts.ibmPlexSansArabic(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 14,
                 fontWeight: FontWeight.normal),
           ),
         ),
