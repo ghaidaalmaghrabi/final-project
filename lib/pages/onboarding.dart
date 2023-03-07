@@ -162,6 +162,7 @@ class _onboardingState extends State<onboarding> {
                               ),
                             ),
                             ElevatedButton(
+                              
                               onPressed: () {
                                 _controller.nextPage(
                                   duration: const Duration(milliseconds: 200),

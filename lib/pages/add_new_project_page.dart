@@ -1,18 +1,22 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:final_project/models/explore.dart';
 import 'package:final_project/pages/settings.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:video_player/video_player.dart';
 
 import '../components/animated_textfield.dart';
 import '../components/ct_elevatedButton.dart';
 import '../components/ct_textfield_title.dart';
+import '../components/upload_vid_button.dart';
 
 class AddNewProjectPage extends StatefulWidget {
   const AddNewProjectPage({super.key});
@@ -45,6 +49,21 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
         _controller = VideoPlayerController.file(_selectedVideo!);
         _controller!.initialize().then((_) {
           setState(() {});
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.leftSlide,
+            headerAnimationLoop: false,
+            dialogType: DialogType.success,
+            showCloseIcon: true,
+            title: 'تم تحميل الفيديو بنجاح',
+            btnOkOnPress: () {
+              debugPrint('OnClcik');
+            },
+            btnOkIcon: Icons.check_circle,
+            onDismissCallback: (type) {
+              debugPrint('Dialog Dissmiss from callback $type');
+            },
+          ).show();
         });
       });
     }
@@ -64,7 +83,6 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
     final response = await supabase.storage
         .from('demo-vid')
         .uploadBinary('videos/$fileName', bytes);
-
   }
 
   ///
@@ -117,7 +135,9 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                         items: <String>['Flutter', 'Swift', 'UI / UX']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
-                              value: value, child: Text(value));
+                            value: value,
+                            child: Text(value),
+                          );
                         }).toList(),
                         value: _selectedOption,
                         onChanged: (newValue) {
@@ -127,7 +147,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                           print(newValue);
                         },
                         style: const TextStyle(
-                            color: Colors.blue,
+                            color: Colors.blueGrey,
                             fontSize: 16,
                             fontWeight: FontWeight.normal),
                         isExpanded: true,
@@ -189,37 +209,44 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                   suffix: null,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      width: 160,
-                      height: 50,
-                      child: MyButton(
-                        title: 'اضف المشروع',
-                        onTap: () async {
-                          print(_selectedOption);
-                          final project = AddNewProject(
-                              pId: _selectedOption,
-                              pName: nameController.text,
-                              pDescription: descriptionController.text,
-                              gitHubLink: projectLinkController.text);
-                          final response = await supabase
-                              .from('newProject')
-                              .insert([project.toJson()]);
-                          await uploadVideoToSupabase();
-                        },
-                      ),
+                    JumpingDots(
+                      color: Colors.blueGrey,
+                      radius: 10,
                     ),
                     SizedBox(
-                        width: 160,
-                        height: 50,
-                        child: MyButton(
-                            title: 'تحميل مقطع الفيديو', onTap: pickVideo)),
+                      width: 160,
+                      height: 40,
+                      child: UploadVidButton(
+                          title: 'تحميل مقطع الفيديو', onTap: pickVideo),
+                    ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(14),
+                child: SizedBox(
+                  height: 40,
+                  child: MyButton(
+                    title: 'اضف المشروع',
+                    onTap: () async {
+                      print(_selectedOption);
+                      final project = AddNewProject(
+                          pId: _selectedOption,
+                          pName: nameController.text,
+                          pDescription: descriptionController.text,
+                          gitHubLink: projectLinkController.text);
+                      final response = await supabase
+                          .from('newProject')
+                          .insert([project.toJson()]);
+                      await uploadVideoToSupabase();
+                    },
+                  ),
                 ),
               ),
               // Container(
