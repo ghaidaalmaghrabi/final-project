@@ -18,47 +18,21 @@ class Explore {
   }
 }
 
-class UserInformation {
-  final String phoneNumber;
-  final String gitHubLink;
-  final String linkedInLink;
-
-  UserInformation({
-    required this.phoneNumber,
-    required this.gitHubLink,
-    required this.linkedInLink,
-  });
-
-  /// This method is used to convert the json data to the UserInformation model.
-  factory UserInformation.fromJson(Map<String, dynamic> json) {
-    return UserInformation(
-      phoneNumber: json['phoneNumber'],
-      gitHubLink: json['gitHubLink'],
-      linkedInLink: json['linkedInLink'],
-    );
-  }
-
-  /// This method is used to convert the UserInformation model to the json data.
-  Map<String, dynamic> toJson() {
-    return {
-      'phoneNumber': phoneNumber,
-      'gitHubLink': gitHubLink,
-      'linkedInLink': linkedInLink,
-    };
-  }
-}
-
 class AddNewProject {
   final String pId;
   final String pName;
   final String pDescription;
   final String gitHubLink;
+  final String userName;
+  final int likes;
 
   AddNewProject({
+    this.likes = 0,
     required this.pId,
     required this.pName,
     required this.pDescription,
     required this.gitHubLink,
+    required this.userName,
   });
 
   /// This method is used to convert the json data to the AddNewProject model.
@@ -68,6 +42,7 @@ class AddNewProject {
       pName: json['pName'],
       pDescription: json['pDescription'],
       gitHubLink: json['gitHubLink'],
+      userName: json['userName'],
     );
   }
 
@@ -78,6 +53,7 @@ class AddNewProject {
       'pName': pName,
       'pDescription': pDescription,
       'gitHubLink': gitHubLink,
+      'userName': userName,
     };
   }
 }

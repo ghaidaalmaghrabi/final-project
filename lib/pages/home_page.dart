@@ -10,7 +10,6 @@ import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 import '../components/project_title.dart';
 import '../components/title.dart';
-import 'add_new_project_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -152,6 +151,14 @@ class _HomePageState extends State<HomePage> {
                                   child: VideoPlayer(_controller!),
                                 ),
                               ),
+                              Row(
+                                children: const [
+                                  Icon(
+                                    Icons.favorite_border_outlined,
+                                    size: 40.0,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -170,10 +177,13 @@ class _HomePageState extends State<HomePage> {
                     for (var i in exploreSection) ...[
                       InkWell(
                         onTap: () {
+                          log(i.pName);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const DevelopersListPage(),
+                              builder: (context) => DevelopersListPage(
+                                projectName: i.pName,
+                              ),
                             ),
                           );
                         },
@@ -239,52 +249,6 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 20.0),
                     ],
                   ]),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          Container(
-            padding: const EdgeInsets.all(15.0),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(20.0),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10.0,
-                  spreadRadius: 5.0,
-                ),
-              ],
-            ),
-            child: Stack(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Icon(
-                      Icons.home_outlined,
-                      size: 45.0,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const AddNewProjectPage()),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.data_saver_on_sharp,
-                        size: 45.0,
-                      ),
-                    ),
-                    const Icon(
-                      Icons.person_outline_outlined,
-                      size: 45.0,
-                    ),
-                  ],
                 ),
               ],
             ),

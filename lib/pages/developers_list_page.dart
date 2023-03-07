@@ -1,14 +1,48 @@
-import 'package:final_project/pages/developer_projects_page.dart';
+import 'package:final_project/models/explore.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DevelopersListPage extends StatefulWidget {
-  const DevelopersListPage({super.key});
+  const DevelopersListPage({super.key, required this.projectName});
+  final String projectName;
 
   @override
   State<DevelopersListPage> createState() => _DevelopersListPageState();
 }
 
 class _DevelopersListPageState extends State<DevelopersListPage> {
+  /// Supabase decleration ...
+  final supabase = Supabase.instance.client;
+
+  /// List of Projects ...
+  List<AddNewProject> projectList = [];
+
+  /// This method to get data from supabase ...
+
+  Future<List<AddNewProject>> getProjects() async {
+    final response = await supabase.from('newProject').select('*').eq('pId', widget.projectName).execute();
+
+    List<AddNewProject> newList = [];
+
+    for (var project in response.data) {
+      final projects = AddNewProject.fromJson(project);
+      newList.add(projects);
+    }
+    setState(() {
+      projectList = newList;
+    });
+    return newList;
+  }
+
+  /// Changing the like icon color and state ...
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    getProjects();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,16 +59,8 @@ class _DevelopersListPageState extends State<DevelopersListPage> {
             const SizedBox(
               height: 20,
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DeveloperProjectsPage(),
-                  ),
-                );
-              },
-              child: Container(
+            for (var i in projectList) ...[
+              Container(
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
                   color: Colors.blue,
@@ -45,27 +71,63 @@ class _DevelopersListPageState extends State<DevelopersListPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('4#'),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isLiked = !isLiked;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.favorite_border,
+                            size: 20.0,
+                            color: isLiked ? Colors.red : Colors.white,
+                          ),
+                          Text(
+                            i.likes.toString(),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        Text(
-                          'مايا',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              i.pName,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              i.userName,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
-                        Icon(Icons.circle, size: 40.0),
+                        const Icon(Icons.circle, size: 40.0),
                       ],
                     ),
                   ],
                 ),
               ),
-            ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
           ],
         ),
       ),
