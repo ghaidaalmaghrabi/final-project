@@ -36,6 +36,7 @@ class CardPlanet extends StatefulWidget {
 class _CardPlanetState extends State<CardPlanet> {
   @override
   Widget build(BuildContext context) {
+    //
     return Stack(
       children: [
         if (widget.data.background != null)
