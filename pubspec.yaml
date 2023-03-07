@@ -44,6 +44,7 @@ dependencies:
   dropdown_button2: ^2.0.0
   flutter_animated_button: ^2.0.3
   animated: ^2.0.0
+  file_picker: ^5.2.5
 
 dev_dependencies:
   flutter_test:

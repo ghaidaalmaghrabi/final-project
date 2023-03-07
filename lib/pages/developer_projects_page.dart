@@ -1,8 +1,44 @@
-import 'package:final_project/pages/add_new_project_page.dart';
-import 'package:flutter/material.dart';
+import 'dart:developer';
+import 'dart:io';
 
-class DeveloperProjectsPage extends StatelessWidget {
+import 'package:file_picker/file_picker.dart';
+import 'package:final_project/pages/edit_profile_page.dart';
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class DeveloperProjectsPage extends StatefulWidget {
   const DeveloperProjectsPage({super.key});
+
+  @override
+  State<DeveloperProjectsPage> createState() => _DeveloperProjectsPageState();
+}
+
+class _DeveloperProjectsPageState extends State<DeveloperProjectsPage> {
+  bool uploadState = true;
+
+  /// SUPABASE DECLARATION ...
+  final supabase = Supabase.instance.client;
+
+  /// This method is used to get the user name from the user metadata in Supabase.
+  String userName() {
+    final userMetadata = supabase.auth.currentUser?.userMetadata;
+    final name = userMetadata?['data']['name'];
+
+    if (name != null) {
+      log(name.toString());
+      return name.toString();
+    } else {
+      log('Name not found in user metadata.');
+      return '';
+    }
+  }
+
+  String userEmail() {
+    final response = supabase.auth.currentUser?.email;
+    return response.toString();
+  }
+
+  /// This function used to pick a file ...
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +52,53 @@ class DeveloperProjectsPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfilePage(),
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.edit, size: 25),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Icon(Icons.list_alt),
+                    InkWell(
+                        onTap: () async {
+                          setState(() {
+                            uploadState = false;
+                          });
+                          var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+                          if (pickedFile != null) {
+                            final file = File(pickedFile.files.first.path ?? ''); // corrected line
+                            await supabase.storage
+                                .from('pdf-file')
+                                .upload(pickedFile.files.first.name, file)
+                                .then((value) {
+                              print(value);
+                              setState(() {
+                                uploadState = true;
+                              });
+                            }).onError((error, stackTrace) {
+                              log(error.toString());
+                              setState(() {
+                                uploadState = true;
+                              });
+                            });
+                          }
+                        },
+                        child: const Icon(Icons.list_alt)),
                     Row(
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            const Text(
-                              'مايا القرشي ',
-                              style: TextStyle(fontSize: 28),
-                            ),
+                            Text(userName(), style: const TextStyle(fontSize: 28)),
                             Row(
-                              children: const [Text('email.com'), Icon(Icons.alternate_email)],
+                              children: [Text(userEmail()), const Icon(Icons.alternate_email)],
                             ),
                             Row(
                               children: const [Text('053*******'), Icon(Icons.phone)],
@@ -55,19 +123,8 @@ class DeveloperProjectsPage extends StatelessWidget {
                 const SizedBox(height: 32),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AddNewProjectPage(),
-                          ),
-                        );
-                      },
-                      child: const Icon(Icons.add_circle_outline),
-                    ),
-                    const Text(
+                  children: const [
+                    Text(
                       'المشاريع',
                       style: TextStyle(fontSize: 28),
                     ),
@@ -78,6 +135,7 @@ class DeveloperProjectsPage extends StatelessWidget {
                     for (final project in UserProject.userProjects) ProjectCard(userProject: project),
                   ],
                 ),
+                uploadState ? const Text('done') : const CircularProgressIndicator(),
               ],
             ),
           ),
