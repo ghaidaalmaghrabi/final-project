@@ -1,13 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:final_project/models/explore.dart';
 import 'package:final_project/pages/settings.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -28,6 +27,20 @@ class AddNewProjectPage extends StatefulWidget {
 class _AddNewProjectPageState extends State<AddNewProjectPage> {
   /// SUPABASE DECLARATION ...
   final supabase = Supabase.instance.client;
+
+  /// This method is used to get the user name from the user metadata in Supabase.
+  String userName() {
+    final userMetadata = supabase.auth.currentUser?.userMetadata;
+    final name = userMetadata?['data']['name'];
+
+    if (name != null) {
+      log(name.toString());
+      return name.toString();
+    } else {
+      log('Name not found in user metadata.');
+      return '';
+    }
+  }
 
   /// DROPDOWN MENU FIRST OPTION ...
   String _selectedOption = 'Flutter';
@@ -80,9 +93,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
     final fileName = _selectedVideo!.path.split('/').last;
     final bytes = await _selectedVideo!.readAsBytes();
 
-    final response = await supabase.storage
-        .from('demo-vid')
-        .uploadBinary('videos/$fileName', bytes);
+    final response = await supabase.storage.from('demo-vid').uploadBinary('videos/$fileName', bytes);
   }
 
   ///
@@ -132,8 +143,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                     padding: const EdgeInsets.all(16),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
-                        items: <String>['Flutter', 'Swift', 'UI / UX']
-                            .map<DropdownMenuItem<String>>((String value) {
+                        items: <String>['Flutter', 'Swift', 'UI / UX'].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -146,10 +156,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                           });
                           print(newValue);
                         },
-                        style: const TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal),
+                        style: const TextStyle(color: Colors.blueGrey, fontSize: 16, fontWeight: FontWeight.normal),
                         isExpanded: true,
                         buttonStyleData: ButtonStyleData(
                           height: 40,
@@ -170,20 +177,16 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                           maxHeight: 200,
                           width: 200,
                           padding: null,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(14)),
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
                           elevation: 8,
                           offset: const Offset(-20, 0),
                           scrollbarTheme: ScrollbarThemeData(
-                              thumbVisibility:
-                                  MaterialStateProperty.all<bool>(true),
+                              thumbVisibility: MaterialStateProperty.all<bool>(true),
                               thickness: MaterialStateProperty.all<double>(6),
                               radius: const Radius.circular(40)),
                         ),
-                        menuItemStyleData: const MenuItemStyleData(
-                            height: 40,
-                            padding: EdgeInsets.only(left: 14, right: 14)),
+                        menuItemStyleData:
+                            const MenuItemStyleData(height: 40, padding: EdgeInsets.only(left: 14, right: 14)),
                       ),
                     ),
                   ),
@@ -191,22 +194,31 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                 ],
               ),
               const CTTextFieldTittle('الإسم'),
-              const SizedBox(
+              SizedBox(
                 width: 400,
-                child: AnimatedTextField(label: '.. اسم المشروع', suffix: null),
+                child: AnimatedTextField(
+                  label: '.. اسم المشروع',
+                  suffix: null,
+                  xController: nameController,
+                ),
               ),
               const CTTextFieldTittle('الوصف'),
-              const SizedBox(
+              SizedBox(
                 width: 400,
                 height: 200,
-                child: AnimatedTextField(label: '.. وصف المشروع', suffix: null),
+                child: AnimatedTextField(
+                  label: '.. وصف المشروع',
+                  suffix: null,
+                  xController: descriptionController,
+                ),
               ),
               const CTTextFieldTittle(' Git Hub رابط المشروع على'),
-              const SizedBox(
+              SizedBox(
                 width: 400,
                 child: AnimatedTextField(
                   label: '.. Git Hub رابط ',
                   suffix: null,
+                  xController: projectLinkController,
                 ),
               ),
               const SizedBox(height: 10),
@@ -215,15 +227,14 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    JumpingDots(
+                    const JumpingDots(
                       color: Colors.blueGrey,
                       radius: 10,
                     ),
                     SizedBox(
                       width: 160,
                       height: 40,
-                      child: UploadVidButton(
-                          title: 'تحميل مقطع الفيديو', onTap: pickVideo),
+                      child: UploadVidButton(title: 'تحميل مقطع الفيديو', onTap: pickVideo),
                     ),
                   ],
                 ),
@@ -237,44 +248,18 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                     onTap: () async {
                       print(_selectedOption);
                       final project = AddNewProject(
-                          pId: _selectedOption,
-                          pName: nameController.text,
-                          pDescription: descriptionController.text,
-                          gitHubLink: projectLinkController.text);
-                      final response = await supabase
-                          .from('newProject')
-                          .insert([project.toJson()]);
+                        pId: _selectedOption,
+                        pName: nameController.text,
+                        pDescription: descriptionController.text,
+                        gitHubLink: projectLinkController.text,
+                        userName: userName(),
+                      );
+                      final response = await supabase.from('newProject').insert([project.toJson()]);
                       await uploadVideoToSupabase();
                     },
                   ),
                 ),
               ),
-              // Container(
-              //   child: ElevatedButton(
-              //     onPressed: pickVideo,
-              //     child: const Text('تحميل مقطع الفيديو'),
-              //   ),
-              // ),
-
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     print(_selectedOption);
-              //     final project = AddNewProject(
-              //       pId: _selectedOption,
-              //       pName: nameController.text,
-              //       pDescription: descriptionController.text,
-              //       gitHubLink: projectLinkController.text,
-              //     );
-              //     final response = await supabase.from('newProject').insert(
-              //       [
-              //         project.toJson(),
-              //       ],
-              //     );
-
-              //     await uploadVideoToSupabase();
-              //   },
-              //   child: const Text('اضف المشروع'),
-              // ),
             ],
           ),
         ],
