@@ -66,7 +66,7 @@ class _CardPlanetState extends State<CardPlanet> {
                 '',
                 style: GoogleFonts.ibmPlexSansArabic(
                   color: widget.data.titleColor,
-                  fontSize: 20,
+                  fontSize: 4,
                   fontWeight: FontWeight.normal,
                   letterSpacing: 1,
                 ),
@@ -77,7 +77,7 @@ class _CardPlanetState extends State<CardPlanet> {
                 widget.data.subtitle,
                 style: GoogleFonts.ibmPlexSansArabic(
                   color: widget.data.subtitleColor,
-                  fontSize: 18,
+                  fontSize: 24,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
