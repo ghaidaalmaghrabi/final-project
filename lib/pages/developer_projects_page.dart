@@ -10,12 +10,17 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:final_project/pages/edit_profile_page.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../components/user_info_title.dart';
+
+import '../components/style.dart';
+
+import '../components/title.dart';
 import '../components/user_title.dart';
 
 class DeveloperPage extends StatefulWidget {
-  DeveloperPage({
+  const DeveloperPage({
     super.key,
   });
 
@@ -51,6 +56,125 @@ class _DeveloperPageState extends State<DeveloperPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+          Image.asset('assets/images/codetech-logo.png', width: 150, height: 150),
+          const SizedBox(height: 70),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfilePage(),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.edit, size: 25),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                InkWell(
+                    onTap: () async {
+                      setState(() {
+                        uploadState = false;
+                      });
+                      var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+                      if (pickedFile != null) {
+                        final file = File(pickedFile.files.first.path ?? '');
+                        await supabase.storage.from('pdf-file').upload(pickedFile.files.first.name, file).then((value) {
+                          print(value);
+                          setState(() {
+                            uploadState = true;
+                          });
+                        }).onError((error, stackTrace) {
+                          log(error.toString());
+                          setState(() {
+                            uploadState = true;
+                          });
+                        });
+                      }
+                    },
+                    child: const Icon(Icons.upload_file_outlined)),
+                Row(children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                    Text(userName(), style: const TextStyle(fontSize: 28)),
+                    Row(children: [
+                      Text(userEmail()),
+                      const Icon(Icons.alternate_email),
+                    ]),
+                    Row(children: const [Text('053*******'), Icon(Icons.phone)]),
+                    Row(children: [
+                      const Text('linkedin.com'),
+                      Image.asset('assets/images/linkedin.png', width: 20, height: 20)
+                    ]),
+                    Row(children: [
+                      const Text('github.com'),
+                      Image.asset('assets/images/github-logo.png', width: 20, height: 20)
+                    ])
+                  ]),
+                ]),
+              ]),
+              const SizedBox(height: 32),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [Text('المشاريع', style: TextStyle(fontSize: 28))]),
+              uploadState ? const Text('done') : const CircularProgressIndicator()
+            ]),
+          ),
+          Expanded(
+              child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(top: 32),
+                  decoration: BoxDecoration(
+                      borderRadius:
+                          const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+                      color: Colors.grey[50]),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  child: SingleChildScrollView(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                        const SizedBox(height: 40),
+                        _labelText('Email:'),
+                        _inputTextField('example@email.com', false),
+                        const SizedBox(height: 16),
+                        _labelText('Password:'),
+                        _inputTextField('******', true),
+                        const SizedBox(height: 12),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                                onTap: () {},
+                                child: Text('Forgot Password ?', style: TextStyle(color: Colors.blue[900])))),
+                        const SizedBox(height: 20),
+                        Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                                height: 46,
+                                width: 160,
+                                child: ElevatedButton(
+                                    onPressed: () {}, child: const Text('Login', style: TextStyle(fontSize: 18))))),
+                        const SizedBox(height: 12),
+                        const Align(
+                            alignment: Alignment.center,
+                            child: Text('OR',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black54))),
+                        const SizedBox(height: 18),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              _loginSocialMediaBtn(FontAwesomeIcons.facebookF, facebookColor),
+                              const SizedBox(width: 16),
+                              _loginSocialMediaBtn(FontAwesomeIcons.google, googleColor),
+                              const SizedBox(width: 16),
+                              _loginSocialMediaBtn(FontAwesomeIcons.twitter, twitterColor)
+                            ])
+                      ]))))
+        ]),
+        backgroundColor: const Color.fromARGB(255, 228, 229, 238));
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
@@ -174,193 +298,164 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 100,
-                                  ),
-                                  UserNameTitle(userName()),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  const AvatarGlow(
-                                    endRadius: 50,
-                                    shape: BoxShape.circle,
-                                    duration: Duration(milliseconds: 2000),
-                                    repeat: true,
-                                    animate: true,
-                                    repeatPauseDuration:
-                                        Duration(milliseconds: 200),
-                                    curve: Curves.fastOutSlowIn,
-                                    showTwoGlows: true,
-                                    glowColor: Colors.red,
-                                    startDelay: Duration(milliseconds: 1000),
-                                    child: CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            'assets/images/profilepic.webp'),
-                                        radius: 40.0),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          InkWell(
-                                            onTap: () => launchUrl(Uri.parse(
-                                                'https://www.linkedin.com/in/rhf-alharbi/')),
-                                            child: Text(
-                                              'linkedin.com/rhf-alharbi.com',
-                                              style:
-                                                  GoogleFonts.ibmPlexSansArabic(
-                                                fontSize: 12,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Image.asset(
-                                              'assets/images/linkedin.png',
-                                              width: 16,
-                                              height: 16),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 12),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          InkWell(
-                                            onTap: () => launchUrl(Uri.parse(
-                                                'https://github.com/rhfhr')),
-                                            child: Text(
-                                              'github.com/rhfhr.com',
-                                              style:
-                                                  GoogleFonts.ibmPlexSansArabic(
-                                                fontSize: 12,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Image.asset(
-                                              'assets/images/github-logo.png',
-                                              width: 16,
-                                              height: 16),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          UserInfoTitle(userEmail()),
-                                          const SizedBox(width: 12),
-                                          Image.asset(
-                                            'assets/images/email.png',
-                                            width: 16,
-                                            height: 16,
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 12),
-                                      // Container(
-                                      //   color: Colors.blueGrey.shade300,
-                                      //   width: 120,
-                                      //   height: 1,
-                                      // ),
-                                      // const SizedBox(height: 12),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          const UserInfoTitle('0532132170'),
-                                          const SizedBox(width: 12),
-                                          Image.asset(
-                                            'assets/images/phone-call.png',
-                                            width: 16,
-                                            height: 16,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Column(),
-                                  Column(),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ]),
+                                ),
+                                MyTitle(userName()),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        UserTitle(userEmail()),
+                                        const SizedBox(width: 12),
+                                        Image.asset(
+                                          'assets/images/email.png',
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    // Container(
+                                    //   color: Colors.blueGrey.shade300,
+                                    //   width: 120,
+                                    //   height: 1,
+                                    // ),
+                                    // const SizedBox(height: 12),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const UserTitle('053*******'),
+                                        const SizedBox(width: 12),
+                                        Image.asset(
+                                          'assets/images/phone-call.png',
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  color: Colors.blueGrey.shade300,
+                                  width: 1,
+                                  height: 50,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const UserTitle('linkedin.com'),
+                                        const SizedBox(width: 12),
+                                        Image.asset(
+                                            'assets/images/linkedin.png',
+                                            width: 20,
+                                            height: 20),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    // Container(
+                                    //   color: Colors.blueGrey.shade300,
+                                    //   width: 120,
+                                    //   height: 1,
+                                    // ),
+                                    // const SizedBox(height: 12),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const UserTitle('github.com'),
+                                        const SizedBox(width: 12),
+                                        Image.asset(
+                                            'assets/images/github-logo.png',
+                                            width: 20,
+                                            height: 20),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 30),
+                            Container(
+                              color: Colors.blueGrey.shade300,
+                              width: 300,
+                              height: 1,
+                            ),
+                            const SizedBox(height: 12),
+                            const SizedBox(height: 32),
+                            uploadState
+                                ? const Text('done')
+                                : const CircularProgressIndicator(),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
+                ]),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 14, top: 14, right: 14),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 228, 235, 238),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)),
-                ),
-                height: 1000,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40)),
-                  ),
-                  child: Column(children: [
-                    CTTextFieldTittle('المشاريع'),
-                    Column(children: [
-                      for (final project in UserProject.userProjects)
-                        InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>  ProjectDetails(),
-                                ),
-                              );
-                            },
-                            child: ProjectCard(userProject: project)),
-                    ]),
-                    uploadState
-                        ? const Text(' ')
-                        : const CircularProgressIndicator(),
-                  ]),
-                ),
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: const Color.fromARGB(255, 228, 238, 233),
+    )
+  }
+
+  _createAccountLink() {
+    return Container(
+      color: Colors.grey,
+      padding: const EdgeInsets.only(bottom: 16),
+      height: 60,
+      child: Center(
+        child: Text(
+          'Don\'t have account ? Sign Up Now',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: facebookColor,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  //button to login in using scial media,
+  _loginSocialMediaBtn(IconData icon, Color bgColor) {
+    return SizedBox.fromSize(
+      size: const Size(54, 54), //button width and height
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Material(
+          elevation: 16,
+          shadowColor: Colors.black,
+          color: bgColor,
+      backgroundColor: Colors.white,
+          child: InkWell(
+            splashColor: Colors.white12,
+            onTap: () {},
+            child: Center(
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 24,
               ),
             ],
           ),
         ],
       ),
-      backgroundColor: Colors.white,
     );
   }
 }
 
 // ignore: prefer-single-widget-per-file
 class ProjectCard extends StatefulWidget {
-  ProjectCard({
+  const ProjectCard({
     super.key,
     required this.userProject,
   });
@@ -401,7 +496,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 ),
                 Text(
                   widget.userProject.likes,
-                  style: TextStyle(color: Color.fromARGB(255, 79, 78, 78)),
+                  style: const TextStyle(color: Color.fromARGB(255, 79, 78, 78)),
                 ),
               ]),
               // Row(children: [

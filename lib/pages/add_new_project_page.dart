@@ -83,7 +83,6 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
   }
 
   /// UPLOAD VIDEO TO SUPABASE FUNCTION ...
-  ///
 
   Future<void> uploadVideoToSupabase() async {
     if (_selectedVideo == null) {
@@ -96,7 +95,6 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
     final response = await supabase.storage.from('demo-vid').uploadBinary('videos/$fileName', bytes);
   }
 
-  ///
   /// DISPOSE CONTROLLERS ...
 
   @override

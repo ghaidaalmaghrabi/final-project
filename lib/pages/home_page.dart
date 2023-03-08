@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:final_project/models/Explore.dart';
+import 'package:final_project/models/explore.dart';
 import 'package:final_project/pages/developers_list_page.dart';
 import 'package:final_project/pages/settings.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
 
   /// THIS METHOD IS USED TO GET VIDEO FROM SUPABASE ...
   getVideo() {
-    return supabase.storage.from('demo-vid').getPublicUrl('tst');
+    return supabase.storage.from('demo-vid').getPublicUrl('videos/vid');
   }
 
   /// INIT STATE ...
@@ -83,36 +83,30 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            leading: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingsPage()));
-              },
-              child: const Icon(Icons.list, color: Colors.grey),
-            ),
-            automaticallyImplyLeading: false,
-            title: Image.asset('assets/images/LogoName.png', height: 50),
-            actions: [
-              Image.asset('assets/images/LogoPic.png', width: 50, height: 50),
-              const SizedBox(width: 10)
-            ],
-            backgroundColor: Colors.white,
-            centerTitle: true),
-        body: ListView(children: [
-          Container(
-            padding: const EdgeInsets.all(15.0),
-            color: Colors.white,
-            child: Column(children: [
-              const Align(
-                  alignment: Alignment.topRight,
-                  child: MyTitle('المشاريع الاكثر إعجابًا')),
-              Container(
-                color: Colors.white,
-                height: 250.0,
-                child: ListView(scrollDirection: Axis.horizontal, children: [
+      appBar: AppBar(
+          leading: InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+            },
+            child: const Icon(Icons.list, color: Colors.grey),
+          ),
+          automaticallyImplyLeading: false,
+          title: Image.asset('assets/images/LogoName.png', height: 50),
+          actions: [Image.asset('assets/images/LogoPic.png', width: 50, height: 50), const SizedBox(width: 10)],
+          backgroundColor: Colors.white,
+          centerTitle: true),
+      body: ListView(children: [
+        Container(
+          padding: const EdgeInsets.all(15.0),
+          color: Colors.white,
+          child: Column(children: [
+            const Align(alignment: Alignment.topRight, child: MyTitle('المشاريع الاكثر إعجابًا')),
+            Container(
+              color: Colors.white,
+              height: 250.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
                   InkWell(
                     onTap: () {
                       print(getVideo());
@@ -121,117 +115,103 @@ class _HomePageState extends State<HomePage> {
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xffECEFF1),
-                        borderRadius: BorderRadius.circular(20),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //       color: Colors.grey.withOpacity(0.5),
-                        //       offset: const Offset(0, 3),
-                        //       blurRadius: 4)
-                        // ],
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
                       ),
                       width: 160.0,
                       margin: const EdgeInsets.all(10.0),
                       child: Column(children: [
-                        const Align(
-                            alignment: Alignment.topRight,
-                            child: Text('اسم المشروع')),
+                        const Align(alignment: Alignment.topRight, child: Text('اسم المشروع')),
                         SizedBox(
                           width: 100.0,
                           height: 172.0,
                           child: Container(
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(16),
+                              ),
                             ),
+                            clipBehavior: Clip.hardEdge,
                             child: AspectRatio(
-                                aspectRatio: _controller!.value.aspectRatio,
-                                child: VideoPlayer(_controller!)),
+                              aspectRatio: _controller!.value.aspectRatio,
+                              child: VideoPlayer(_controller!),
+                            ),
                           ),
                         ),
                         Row(children: const [
                           Icon(Icons.favorite_border_outlined, size: 16.0),
                           Text('  900'),
-                        ])
+                        ]),
                       ]),
                     ),
                   ),
-                ]),
+                ],
               ),
-              const Align(
-                  alignment: Alignment.topRight,
-                  child: MyTitle('استكشف المشاريع')),
-              const SizedBox(height: 20.0),
-              SizedBox(
-                  height: 380,
-                  child: ListView(children: [
-                    for (var i in exploreSection) ...[
-                      InkWell(
-                          onTap: () {
-                            log(i.pName);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DevelopersListPage(
-                                        projectName: i.pName)));
-                          },
-                          child: Container(
-                              padding: const EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 204, 218, 218),
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(20)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        offset: const Offset(0, 3),
-                                        blurRadius: 4)
-                                  ]),
-                              child: Column(children: [
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      ProjectTitle(i.pName),
-                                      const SizedBox(width: 20.0),
-                                      WidgetCircularAnimator(
-                                          innerColor: const Color(0xff70788A),
-                                          outerColor: const Color(0xff455A64),
-                                          innerAnimation: Curves.easeInOutBack,
-                                          outerAnimation: Curves.easeInOutBack,
-                                          size: 80,
-                                          innerIconsSize: 3,
-                                          outerIconsSize: 3,
-                                          innerAnimationSeconds: 10,
-                                          outerAnimationSeconds: 10,
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.grey[200],
-                                                  shape: BoxShape.circle),
-                                              child: CircleAvatar(
-                                                  backgroundColor:
-                                                      const Color(0xff034C5C),
-                                                  radius: 32,
-                                                  child: CircleAvatar(
-                                                      backgroundImage:
-                                                          NetworkImage(
-                                                              i.pImage),
-                                                      radius: 30))))
-                                    ]),
-                                const SizedBox(height: 20.0),
-                                Text(i.pDescription,
-                                    textAlign: TextAlign.right,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2)
-                              ]))),
-                      const SizedBox(height: 20.0)
-                    ]
-                  ]))
-            ]),
-          ),
-        ]),
-        backgroundColor: Colors.white);
+            ),
+            const Align(alignment: Alignment.topRight, child: MyTitle('استكشف المشاريع')),
+            const SizedBox(height: 20.0),
+            SizedBox(
+              height: 380,
+              child: ListView(children: [
+                for (var i in exploreSection) ...[
+                  InkWell(
+                    onTap: () {
+                      log(i.pName);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DevelopersListPage(projectName: i.pName)),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 204, 218, 218),
+                        borderRadius:
+                            const BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(20)),
+                        boxShadow: [
+                          BoxShadow(color: Colors.grey.withOpacity(0.5), offset: const Offset(0, 3), blurRadius: 4),
+                        ],
+                      ),
+                      child: Column(children: [
+                        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                          ProjectTitle(i.pName),
+                          const SizedBox(width: 20.0),
+                          WidgetCircularAnimator(
+                            innerColor: const Color(0xff70788A),
+                            outerColor: const Color(0xff455A64),
+                            innerAnimation: Curves.easeInOutBack,
+                            outerAnimation: Curves.easeInOutBack,
+                            size: 80,
+                            innerIconsSize: 3,
+                            outerIconsSize: 3,
+                            innerAnimationSeconds: 10,
+                            outerAnimationSeconds: 10,
+                            child: Container(
+                              decoration: BoxDecoration(color: Colors.grey[200], shape: BoxShape.circle),
+                              child: CircleAvatar(
+                                backgroundColor: const Color(0xff034C5C),
+                                radius: 32,
+                                child: CircleAvatar(backgroundImage: NetworkImage(i.pImage), radius: 30),
+                              ),
+                            ),
+                          ),
+                        ]),
+                        const SizedBox(height: 20.0),
+                        Text(i.pDescription, textAlign: TextAlign.right, overflow: TextOverflow.ellipsis, maxLines: 2),
+                      ]),
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                ],
+              ]),
+            ),
+          ]),
+        ),
+      ]),
+      backgroundColor: Colors.white,
+    );
   }
 }

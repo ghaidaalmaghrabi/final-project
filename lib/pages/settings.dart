@@ -1,7 +1,9 @@
 import 'package:final_project/pages/change_password_page.dart';
 import 'package:final_project/pages/profile_page.dart';
+import 'package:final_project/pages/registration/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -13,6 +15,14 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool languageSwitchValue = true;
   bool modeSwitchValue = true;
+  final supabase = Supabase.instance.client;
+
+  /// Sign out function ...
+  Future<void> signOut() async {
+    await supabase.auth.signOut();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,16 +135,19 @@ class _SettingsPageState extends State<SettingsPage> {
                           ],
                         ),
                         const Divider(thickness: 2),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            Icon(Icons.logout),
-                            SizedBox(width: 4),
-                            Text(
-                              'تسجيل الخروج',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ],
+                        InkWell(
+                          onTap: signOut,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              Icon(Icons.logout),
+                              SizedBox(width: 4),
+                              Text(
+                                'تسجيل الخروج',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

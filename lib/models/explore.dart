@@ -57,3 +57,18 @@ class AddNewProject {
     };
   }
 }
+
+class StorageFile {
+  final String url;
+
+  StorageFile({
+    required this.url,
+  });
+
+  /// This method is used to convert the json data to the StorageFile model.
+  factory StorageFile.fromJson(Map<String, dynamic> json) {
+    return StorageFile(
+      url: json['url'],
+    );
+  }
+}
