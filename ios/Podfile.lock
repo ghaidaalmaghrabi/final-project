@@ -55,7 +55,6 @@ PODS:
 DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
-  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
@@ -70,18 +69,9 @@ SPEC REPOS:
     - SDWebImage
     - SwiftyGif
 
-SPEC REPOS:
-  trunk:
-    - DKImagePickerController
-    - DKPhotoGallery
-    - SDWebImage
-    - SwiftyGif
-
 EXTERNAL SOURCES:
   app_links:
     :path: ".symlinks/plugins/app_links/ios"
-  file_picker:
-    :path: ".symlinks/plugins/file_picker/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:

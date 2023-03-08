@@ -15,7 +15,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   var currentIndex = 2;
-  final pages = [MyHomePage(), const AddNewProjectPage(), const HomePage()];
+  final pages = [DeveloperPage(), const AddNewProjectPage(), const HomePage()];
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
