@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:final_project/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,15 +23,9 @@ class _LoginPageState extends State<LoginPage> {
   /// SIGN IN FUNCTION ...
   Future<void> singIn() async {
     try {
-      await supabase.auth.signInWithPassword(
-          email: emailComtroller.text, password: passwordComtroller.text);
+      await supabase.auth.signInWithPassword(email: emailComtroller.text, password: passwordComtroller.text);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavBar(),
-        ),
-      );
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
     } catch (e) {
       log(e.toString());
     }
@@ -55,9 +48,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign In'),
-      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -85,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
               deleteTextFields();
               log('hey from git');
             },
-            child: const Text('Sign In'),
+            child: const Text('Login'),
           ),
         ],
       ),

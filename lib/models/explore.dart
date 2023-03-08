@@ -24,10 +24,10 @@ class AddNewProject {
   final String pDescription;
   final String gitHubLink;
   final String userName;
-  final int likes;
+  final int postLike;
 
   AddNewProject({
-    this.likes = 0,
+    this.postLike = 0,
     required this.pId,
     required this.pName,
     required this.pDescription,
@@ -38,6 +38,7 @@ class AddNewProject {
   /// This method is used to convert the json data to the AddNewProject model.
   factory AddNewProject.fromJson(Map<String, dynamic> json) {
     return AddNewProject(
+      postLike: json['postLike'],
       pId: json['pId'],
       pName: json['pName'],
       pDescription: json['pDescription'],
@@ -54,6 +55,7 @@ class AddNewProject {
       'pDescription': pDescription,
       'gitHubLink': gitHubLink,
       'userName': userName,
+      'postLike': postLike,
     };
   }
 }

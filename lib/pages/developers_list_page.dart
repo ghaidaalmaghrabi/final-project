@@ -47,7 +47,7 @@ class _DevelopersListPageState extends State<DevelopersListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('مطورين فلاتر'),
+        title: Text(widget.projectName),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -85,7 +85,7 @@ class _DevelopersListPageState extends State<DevelopersListPage> {
                             color: isLiked ? Colors.red : Colors.white,
                           ),
                           Text(
-                            i.likes.toString(),
+                            i.postLike.toString(),
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

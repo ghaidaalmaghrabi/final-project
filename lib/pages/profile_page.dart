@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:final_project/models/explore.dart';
 import 'package:final_project/pages/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,6 +14,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final phNumberController = TextEditingController();
+  List<AddNewProject> projectList = [];
 
   /// SUPABASE DECLARATION ...
   final supabase = Supabase.instance.client;
