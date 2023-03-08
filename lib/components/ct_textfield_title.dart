@@ -16,9 +16,7 @@ class CTTextFieldTittle extends StatelessWidget {
           child: Text(
             text,
             style: GoogleFonts.notoSansArabic(
-                color: Color.fromARGB(255, 67, 77, 77),
-                fontSize: 14,
-                fontWeight: FontWeight.normal),
+                color: const Color.fromARGB(255, 67, 77, 77), fontSize: 14, fontWeight: FontWeight.normal),
           ),
         ),
       ],

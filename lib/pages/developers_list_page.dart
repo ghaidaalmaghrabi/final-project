@@ -47,7 +47,7 @@ class _DevelopersListPageState extends State<DevelopersListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('مطورين فلاتر'),
+        title: Text(widget.projectName),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

@@ -1,21 +1,24 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:final_project/models/explore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../components/ct_textfield_title.dart';
-import 'dart:developer';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
-import 'package:final_project/pages/edit_profile_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../components/user_info_title.dart';
 import '../components/user_title.dart';
 
 class ProjectDetails extends StatefulWidget {
-  ProjectDetails({
+  final String pName;
+  const ProjectDetails({
     super.key,
+    required this.pName,
   });
 
   @override
@@ -24,6 +27,7 @@ class ProjectDetails extends StatefulWidget {
 
 class _ProjectDetailsState extends State<ProjectDetails> {
   bool uploadState = true;
+  List<AddNewProject> projectList = [];
 
   /// SUPABASE DECLARATION ...
   final supabase = Supabase.instance.client;
@@ -47,6 +51,28 @@ class _ProjectDetailsState extends State<ProjectDetails> {
     return response.toString();
   }
 
+  /// This method is used to get projects from supabase ...
+  Future<List<AddNewProject>> getProjects() async {
+    final response = await supabase.from('newProject').select().eq('pName', widget.pName).execute();
+
+    List<AddNewProject> newList = [];
+
+    for (var project in response.data) {
+      final projects = AddNewProject.fromJson(project);
+      newList.add(projects);
+    }
+    setState(() {
+      projectList = newList;
+    });
+    return newList;
+  }
+
+  @override
+  void initState() {
+    getProjects();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,10 +89,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
         ),
         automaticallyImplyLeading: false,
         title: Image.asset('assets/images/LogoName.png', height: 50),
-        actions: [
-          Image.asset('assets/images/LogoPic.png', width: 50, height: 50),
-          const SizedBox(width: 10)
-        ],
+        actions: [Image.asset('assets/images/LogoPic.png', width: 50, height: 50), const SizedBox(width: 10)],
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
@@ -78,17 +101,13 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
                 decoration: const BoxDecoration(
                   color: Color(0xffA7D3D6),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40)),
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
                 ),
                 width: double.infinity,
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40)),
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
                   ),
                   width: double.infinity,
                   child: Column(
@@ -109,15 +128,12 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                       setState(() {
                                         uploadState = false;
                                       });
-                                      var pickedFile = await FilePicker.platform
-                                          .pickFiles(allowMultiple: false);
+                                      var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
                                       if (pickedFile != null) {
-                                        final file = File(
-                                            pickedFile.files.first.path ?? '');
+                                        final file = File(pickedFile.files.first.path ?? '');
                                         await supabase.storage
                                             .from('pdf-file')
-                                            .upload(pickedFile.files.first.name,
-                                                file)
+                                            .upload(pickedFile.files.first.name, file)
                                             .then((value) {
                                           print(value);
                                           setState(() {
@@ -133,38 +149,31 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                               headerAnimationLoop: false,
                                               dialogType: DialogType.success,
                                               showCloseIcon: true,
-                                              title:
-                                                  'تم تحميل السيرة الذاتية بنجاح',
+                                              title: 'تم تحميل السيرة الذاتية بنجاح',
                                               btnOkOnPress: () {
                                                 debugPrint('OnClcik');
                                               },
                                               btnOkIcon: Icons.check_circle,
                                               onDismissCallback: (type) {
-                                                debugPrint(
-                                                    'Dialog Dissmiss from callback $type');
+                                                debugPrint('Dialog Dissmiss from callback $type');
                                               },
                                             ).show();
                                           });
                                         });
                                       }
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/resume.png',
-                                            width: 30,
-                                            height: 30,
-                                          ),
-                                          Text(
-                                            'رفع السيرة الذاتية',
-                                            style:
-                                                GoogleFonts.ibmPlexSansArabic(
-                                                    fontSize: 14),
-                                          ),
-                                        ],
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/resume.png',
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text(
+                                          'رفع السيرة الذاتية',
+                                          style: GoogleFonts.ibmPlexSansArabic(fontSize: 14),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   const SizedBox(
@@ -180,75 +189,58 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                     duration: Duration(milliseconds: 2000),
                                     repeat: true,
                                     animate: true,
-                                    repeatPauseDuration:
-                                        Duration(milliseconds: 200),
+                                    repeatPauseDuration: Duration(milliseconds: 200),
                                     curve: Curves.fastOutSlowIn,
                                     showTwoGlows: true,
                                     glowColor: Colors.red,
                                     startDelay: Duration(milliseconds: 1000),
                                     child: CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            'assets/images/profilepic.webp'),
-                                        radius: 40.0),
+                                        backgroundImage: AssetImage('assets/images/profilepic.webp'), radius: 40.0),
                                   ),
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           InkWell(
-                                            onTap: () => launchUrl(Uri.parse(
-                                                'https://www.linkedin.com/in/rhf-alharbi/')),
+                                            onTap: () =>
+                                                launchUrl(Uri.parse('https://www.linkedin.com/in/rhf-alharbi/')),
                                             child: Text(
                                               'linkedin.com/rhf-alharbi.com',
-                                              style:
-                                                  GoogleFonts.ibmPlexSansArabic(
+                                              style: GoogleFonts.ibmPlexSansArabic(
                                                 fontSize: 12,
-                                                decoration:
-                                                    TextDecoration.underline,
+                                                decoration: TextDecoration.underline,
                                                 color: Colors.blue,
                                               ),
                                             ),
                                           ),
                                           const SizedBox(width: 12),
-                                          Image.asset(
-                                              'assets/images/linkedin.png',
-                                              width: 16,
-                                              height: 16),
+                                          Image.asset('assets/images/linkedin.png', width: 16, height: 16),
                                         ],
                                       ),
                                       const SizedBox(height: 12),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           InkWell(
-                                            onTap: () => launchUrl(Uri.parse(
-                                                'https://github.com/rhfhr')),
+                                            onTap: () => launchUrl(Uri.parse('https://github.com/rhfhr')),
                                             child: Text(
                                               'github.com/rhfhr.com',
-                                              style:
-                                                  GoogleFonts.ibmPlexSansArabic(
+                                              style: GoogleFonts.ibmPlexSansArabic(
                                                 fontSize: 12,
-                                                decoration:
-                                                    TextDecoration.underline,
+                                                decoration: TextDecoration.underline,
                                                 color: Colors.blue,
                                               ),
                                             ),
                                           ),
                                           const SizedBox(width: 12),
-                                          Image.asset(
-                                              'assets/images/github-logo.png',
-                                              width: 16,
-                                              height: 16),
+                                          Image.asset('assets/images/github-logo.png', width: 16, height: 16),
                                         ],
                                       ),
                                     ],
@@ -256,8 +248,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                   Column(
                                     children: [
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           UserInfoTitle(userEmail()),
                                           const SizedBox(width: 12),
@@ -276,8 +267,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                       // ),
                                       // const SizedBox(height: 12),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           const UserInfoTitle('0532132170'),
                                           const SizedBox(width: 12),
@@ -309,25 +299,26 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 padding: const EdgeInsets.only(left: 14, top: 14, right: 14),
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 228, 235, 238),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
                 ),
                 height: 1000,
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
                   ),
-                  child: Column(children: [
-                    for (final project in UserProject.userProjects)
-                      ProjectCard(userProject: project),
-                    uploadState
-                        ? const Text(' ')
-                        : const CircularProgressIndicator(),
-                  ]),
+                  child: Column(
+                    children: [
+                      for (var i in projectList) ...[
+                        ProjectCard(
+                          projectName: i.pName,
+                          projectDescription: i.pDescription,
+                          githubLink: i.gitHubLink,
+                        ),
+                      ],
+                      uploadState ? const Text(' ') : const CircularProgressIndicator(),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -342,11 +333,16 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 //
 // ignore: prefer-single-widget-per-file
 class ProjectCard extends StatefulWidget {
-  ProjectCard({
+  final String projectName;
+  final String projectDescription;
+  final String githubLink;
+
+  const ProjectCard({
     super.key,
-    required this.userProject,
+    required this.projectName,
+    required this.projectDescription,
+    required this.githubLink,
   });
-  final UserProject userProject;
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();
@@ -359,13 +355,13 @@ class _ProjectCardState extends State<ProjectCard> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          const Text('اسم المشروع'),
+          Text(widget.projectName),
           Container(
             padding: const EdgeInsets.all(8),
             decoration: const BoxDecoration(
               border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
             ),
-            child: const Text('وصف المشروع'),
+            child: Text(widget.projectDescription),
           ),
           const SizedBox(height: 16),
           const Text('ديمو'),
@@ -375,9 +371,9 @@ class _ProjectCardState extends State<ProjectCard> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
-              Text('github link'),
-              Icon(Icons.close),
+            children: [
+              Text(widget.githubLink),
+              const Icon(Icons.close),
             ],
           ),
         ],
@@ -385,75 +381,3 @@ class _ProjectCardState extends State<ProjectCard> {
     );
   }
 }
-
-class UserProject {
-  final String name;
-  final String likes;
-  final String views;
-  UserProject({
-    required this.likes,
-    required this.views,
-    required this.name,
-  });
-  static List<UserProject> userProjects = [
-    UserProject(
-      likes: '1234',
-      name: 'متجر الكتروني',
-      views: '5555',
-    ),
-    UserProject(
-      likes: '5755',
-      name: 'تطبيق توصيل',
-      views: '585',
-    ),
-  ];
-}
-
-
-
-
-
-// import 'package:flutter/material.dart';
-
-// class ProjectDetails extends StatelessWidget {
-//   const ProjectDetails({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: const Color(0xff123A46),
-//       ),
-//       body: ListView(children: [
-//         Padding(
-//           padding: const EdgeInsets.all(16.0),
-//           child: Column(
-//             children: [
-//               const Text('اسم المشروع'),
-//               Container(
-//                 padding: const EdgeInsets.all(8),
-//                 decoration: const BoxDecoration(
-//                   border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
-//                 ),
-//                 child: const Text('وصف المشروع'),
-//               ),
-//               const SizedBox(height: 16),
-//               const Text('ديمو'),
-//               const Placeholder(
-//                 // fallbackWidth: 100,
-//                 fallbackHeight: 300,
-//               ),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.end,
-//                 children: const [
-//                   Text('github link'),
-//                   Icon(Icons.close),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ]),
-//     );
-//   }
-// }

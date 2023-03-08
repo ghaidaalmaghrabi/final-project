@@ -25,6 +25,8 @@ class _HomePageState extends State<HomePage> {
   List<AddNewProject> mostLikeProjects = [];
 
   VideoPlayerController? _controller;
+  VideoPlayerController? _controller2;
+  VideoPlayerController? _controller3;
 
   /// SUPABASE DECLARATION ...
   final supabase = Supabase.instance.client;
@@ -65,12 +67,32 @@ class _HomePageState extends State<HomePage> {
     return supabase.storage.from('demo-vid').getPublicUrl('videos/vid');
   }
 
+  getVideo2() {
+    return supabase.storage.from('demo-vid').getPublicUrl('videos/vid-2');
+  }
+
+  getVideo3() {
+    return supabase.storage.from('demo-vid').getPublicUrl('videos/vid-3');
+  }
+
   /// INIT STATE ...
   @override
   void initState() {
     getExploreSection();
     _controller = VideoPlayerController.network(getVideo());
     _controller!.initialize().then((_) {
+      setState(() {});
+    });
+
+    /// Second Video ...
+    _controller2 = VideoPlayerController.network(getVideo2());
+    _controller2!.initialize().then((_) {
+      setState(() {});
+    });
+
+    /// Third Video ...
+    _controller3 = VideoPlayerController.network(getVideo3());
+    _controller3!.initialize().then((_) {
       setState(() {});
     });
     super.initState();
@@ -185,6 +207,146 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+
+                    /// Second Card ...
+                    InkWell(
+                      onTap: () {
+                        print(getVideo2());
+                        log(_controller2.toString());
+                        _controller2!.play();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                          color: Color(0xffECEFF1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        width: 160.0,
+                        margin: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            const Align(
+                              alignment: Alignment.topRight,
+                              child: Text('i.pName'),
+                            ),
+                            SizedBox(
+                              width: 100.0,
+                              height: 160.0,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(16),
+                                  ),
+                                ),
+                                clipBehavior: Clip.hardEdge,
+                                child: AspectRatio(
+                                  aspectRatio: _controller2!.value.aspectRatio,
+                                  child: VideoPlayer(_controller2!),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isLiked = !isLiked;
+                                      numbOfLikes += isLiked ? 1 : -1;
+                                    });
+                                    supabase
+                                        .from('newProject')
+                                        .update({'postLike': numbOfLikes})
+                                        .eq('userName', userName())
+                                        .execute();
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        isLiked ? Icons.favorite : Icons.favorite_border,
+                                        color: isLiked ? Colors.red : null,
+                                      ),
+                                      Text(numbOfLikes.toString()),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    /// Third Card ...
+                    InkWell(
+                      onTap: () {
+                        print(getVideo2());
+                        log(_controller3.toString());
+                        _controller3!.play();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                          color: Color(0xffECEFF1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        width: 160.0,
+                        margin: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            const Align(
+                              alignment: Alignment.topRight,
+                              child: Text('i.pName'),
+                            ),
+                            SizedBox(
+                              width: 100.0,
+                              height: 160.0,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(16),
+                                  ),
+                                ),
+                                clipBehavior: Clip.hardEdge,
+                                child: AspectRatio(
+                                  aspectRatio: _controller3!.value.aspectRatio,
+                                  child: VideoPlayer(_controller3!),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isLiked = !isLiked;
+                                      numbOfLikes += isLiked ? 1 : -1;
+                                    });
+                                    supabase
+                                        .from('newProject')
+                                        .update({'postLike': numbOfLikes})
+                                        .eq('userName', userName())
+                                        .execute();
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        isLiked ? Icons.favorite : Icons.favorite_border,
+                                        color: isLiked ? Colors.red : null,
+                                      ),
+                                      Text(numbOfLikes.toString()),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -237,8 +399,12 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ]),
                           const SizedBox(height: 20.0),
-                          Text(i.pDescription,
-                              textAlign: TextAlign.right, overflow: TextOverflow.ellipsis, maxLines: 2),
+                          Text(
+                            i.pDescription,
+                            textAlign: TextAlign.right,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
                         ]),
                       ),
                     ),
