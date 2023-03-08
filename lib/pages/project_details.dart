@@ -339,6 +339,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   }
 }
 
+//
 // ignore: prefer-single-widget-per-file
 class ProjectCard extends StatefulWidget {
   ProjectCard({
