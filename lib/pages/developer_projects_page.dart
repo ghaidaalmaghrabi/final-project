@@ -160,8 +160,8 @@ class _DeveloperPageState extends State<DeveloperPage> {
                           const SizedBox(width: 16),
                           _loginSocialMediaBtn(FontAwesomeIcons.google, googleColor),
                           const SizedBox(width: 16),
-                          _loginSocialMediaBtn(FontAwesomeIcons.twitter, twitterColor)
-                        ])
+                          _loginSocialMediaBtn(FontAwesomeIcons.twitter, twitterColor),
+                        ],),
                   ],
                 ),
               ),
