@@ -12,9 +12,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:final_project/pages/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../components/style.dart';
 
 import '../components/title.dart';
 import '../components/user_title.dart';
@@ -64,12 +63,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
             child: Column(children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const EditProfilePage(),
-                    ),
-                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage()));
                 },
                 child: const Icon(Icons.edit, size: 25),
               ),
@@ -99,10 +93,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                 Row(children: [
                   Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                     Text(userName(), style: const TextStyle(fontSize: 28)),
-                    Row(children: [
-                      Text(userEmail()),
-                      const Icon(Icons.alternate_email),
-                    ]),
+                    Row(children: [Text(userEmail()), const Icon(Icons.alternate_email)]),
                     Row(children: const [Text('053*******'), Icon(Icons.phone)]),
                     Row(children: [
                       const Text('linkedin.com'),
@@ -111,7 +102,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                     Row(children: [
                       const Text('github.com'),
                       Image.asset('assets/images/github-logo.png', width: 20, height: 20)
-                    ])
+                    ]),
                   ]),
                 ]),
               ]),
@@ -123,58 +114,244 @@ class _DeveloperPageState extends State<DeveloperPage> {
             ]),
           ),
           Expanded(
-              child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(top: 32),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-                      color: Colors.grey[50]),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  child: SingleChildScrollView(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                        const SizedBox(height: 40),
-                        _labelText('Email:'),
-                        _inputTextField('example@email.com', false),
-                        const SizedBox(height: 16),
-                        _labelText('Password:'),
-                        _inputTextField('******', true),
-                        const SizedBox(height: 12),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: InkWell(
-                                onTap: () {},
-                                child: Text('Forgot Password ?', style: TextStyle(color: Colors.blue[900])))),
-                        const SizedBox(height: 20),
-                        Align(
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                                height: 46,
-                                width: 160,
-                                child: ElevatedButton(
-                                    onPressed: () {}, child: const Text('Login', style: TextStyle(fontSize: 18))))),
-                        const SizedBox(height: 12),
-                        const Align(
-                            alignment: Alignment.center,
-                            child: Text('OR',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black54))),
-                        const SizedBox(height: 18),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              _loginSocialMediaBtn(FontAwesomeIcons.facebookF, facebookColor),
-                              const SizedBox(width: 16),
-                              _loginSocialMediaBtn(FontAwesomeIcons.google, googleColor),
-                              const SizedBox(width: 16),
-                              _loginSocialMediaBtn(FontAwesomeIcons.twitter, twitterColor)
-                            ])
-                      ]))))
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              decoration: BoxDecoration(
+                  color: Colors.grey[50],
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40))),
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 32),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const SizedBox(height: 40),
+                    _labelText('Email:'),
+                    _inputTextField('example@email.com', false),
+                    const SizedBox(height: 16),
+                    _labelText('Password:'),
+                    _inputTextField('******', true),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                          onTap: () {}, child: Text('Forgot Password ?', style: TextStyle(color: Colors.blue[900]))),
+                    ),
+                    const SizedBox(height: 20),
+                    Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                            height: 46,
+                            width: 160,
+                            child: ElevatedButton(
+                                onPressed: () {}, child: const Text('Login', style: TextStyle(fontSize: 18))))),
+                    const SizedBox(height: 12),
+                    const Align(
+                        alignment: Alignment.center,
+                        child: Text('OR',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black54))),
+                    const SizedBox(height: 18),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          _loginSocialMediaBtn(FontAwesomeIcons.facebookF, facebookColor),
+                          const SizedBox(width: 16),
+                          _loginSocialMediaBtn(FontAwesomeIcons.google, googleColor),
+                          const SizedBox(width: 16),
+                          _loginSocialMediaBtn(FontAwesomeIcons.twitter, twitterColor)
+                        ])
+                  ],
+                ),
+              ),
+            ),
+          ),
         ]),
         backgroundColor: const Color.fromARGB(255, 228, 229, 238));
+    // ignore: dead_code
+    appBar:
+    AppBar(
+      leading: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const EditProfilePage(),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Image.asset(
+            'assets/images/user-avatar.png',
+          ),
+        ),
+      ),
+      automaticallyImplyLeading: false,
+      title: Image.asset('assets/images/LogoName.png', height: 50),
+      actions: [Image.asset('assets/images/LogoPic.png', width: 50, height: 50), const SizedBox(width: 10)],
+      backgroundColor: Colors.white,
+      centerTitle: true,
+    );
+    body:
+    Container(
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+      ),
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 32),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(children: <Widget>[
+                Stack(
+                  children: [
+                    LottieBuilder.asset(
+                      'assets/animation/square.json',
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(28),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  setState(() {
+                                    uploadState = false;
+                                  });
+                                  var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+                                  if (pickedFile != null) {
+                                    final file = File(pickedFile.files.first.path ?? '');
+                                    await supabase.storage
+                                        .from('pdf-file')
+                                        .upload(pickedFile.files.first.name, file)
+                                        .then((value) {
+                                      print(value);
+                                      setState(() {
+                                        uploadState = true;
+                                      });
+                                    }).onError((error, stackTrace) {
+                                      log(error.toString());
+                                      setState(() {
+                                        uploadState = true;
+                                      });
+                                    });
+                                  }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Image.asset(
+                                    'assets/images/resume.png',
+                                    width: 30,
+                                    height: 30,
+                                  ),
+                                ),
+                              ),
+                              MyTitle(userName()),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      UserTitle(userEmail()),
+                                      const SizedBox(width: 12),
+                                      Image.asset(
+                                        'assets/images/email.png',
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                  // Container(
+                                  //   color: Colors.blueGrey.shade300,
+                                  //   width: 120,
+                                  //   height: 1,
+                                  // ),
+                                  // const SizedBox(height: 12),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      const UserTitle('053*******'),
+                                      const SizedBox(width: 12),
+                                      Image.asset(
+                                        'assets/images/phone-call.png',
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                color: Colors.blueGrey.shade300,
+                                width: 1,
+                                height: 50,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      const UserTitle('linkedin.com'),
+                                      const SizedBox(width: 12),
+                                      Image.asset('assets/images/linkedin.png', width: 20, height: 20),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                  // Container(
+                                  //   color: Colors.blueGrey.shade300,
+                                  //   width: 120,
+                                  //   height: 1,
+                                  // ),
+                                  // const SizedBox(height: 12),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      const UserTitle('github.com'),
+                                      const SizedBox(width: 12),
+                                      Image.asset('assets/images/github-logo.png', width: 20, height: 20),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Container(
+                            color: Colors.blueGrey.shade300,
+                            width: 300,
+                            height: 1,
+                          ),
+                          const SizedBox(height: 12),
+                          const SizedBox(height: 32),
+                          uploadState ? const Text('done') : const CircularProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ]),
+            ),
+          ],
+        ),
+      ),
+    );
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
@@ -432,6 +609,13 @@ class _DeveloperPageState extends State<DeveloperPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Material(
+            elevation: 16,
+            color: bgColor,
+            shadowColor: Colors.black,
+            child: InkWell(
+                splashColor: Colors.white12,
+                onTap: () {},
+                child: Center(child: Icon(icon, color: Colors.white, size: 24)))),
           elevation: 16,
           shadowColor: Colors.black,
           color: bgColor,
@@ -451,23 +635,12 @@ class _DeveloperPageState extends State<DeveloperPage> {
       ),
     );
   }
-}
-
-// ignore: prefer-single-widget-per-file
-class ProjectCard extends StatefulWidget {
-  const ProjectCard({
-    super.key,
-    required this.userProject,
-  });
-  final UserProject userProject;
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();
 }
 
-class _ProjectCardState extends State<ProjectCard> {
-  @override
-  Widget build(BuildContext context) {
+  _labelText(title) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
@@ -527,6 +700,7 @@ class _ProjectCardState extends State<ProjectCard> {
     );
   }
 }
+/////22222222
 
 class UserProject {
   final String name;
