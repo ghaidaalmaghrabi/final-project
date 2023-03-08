@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class UserNameTitle extends StatelessWidget {
-  const UserNameTitle(this.text, {super.key});
+class UserInfoTitle extends StatelessWidget {
+  const UserInfoTitle(this.text, {super.key});
 
   final String text;
 
@@ -12,7 +12,7 @@ class UserNameTitle extends StatelessWidget {
       text,
       style: GoogleFonts.ibmPlexSansArabic(
           color: Color.fromARGB(255, 57, 57, 57),
-          fontSize: 20,
+          fontSize: 12,
           fontWeight: FontWeight.normal),
     );
   }
