@@ -182,7 +182,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                     width: 12,
                                   ),
                                   const AvatarGlow(
-                                    endRadius: 50,
+                                    endRadius: 30,
                                     shape: BoxShape.circle,
                                     duration: Duration(milliseconds: 2000),
                                     repeat: true,
@@ -196,7 +196,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                     child: CircleAvatar(
                                         backgroundImage: AssetImage(
                                             'assets/images/profilepic.webp'),
-                                        radius: 40.0),
+                                        radius: 20.0),
                                   ),
                                 ],
                               ),
@@ -261,6 +261,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                     ],
                                   ),
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -337,7 +338,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>  ProjectDetails(),
+                                  builder: (context) => ProjectDetails(),
                                 ),
                               );
                             },

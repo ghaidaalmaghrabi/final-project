@@ -47,8 +47,9 @@ class OnboardingPage extends StatelessWidget {
     return Scaffold(
       body: ConcentricPageView(
           itemBuilder: (int index) {
-            return CardPlanet(data: data[index],);
-            
+            return CardPlanet(
+              data: data[index],
+            );
           },
           colors: data.map((e) => e.backgroundColor).toList(),
           onFinish: () {
