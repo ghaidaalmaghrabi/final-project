@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:final_project/models/explore.dart';
 import 'package:final_project/pages/developers_list_page.dart';
+import 'package:final_project/pages/project_details.dart';
 import 'package:final_project/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,7 +57,9 @@ class _HomePageState extends State<HomePage> {
     // ),
   ];
   bool isLiked = false;
-  var numbOfLikes = 0;
+  var numbOfLikes1 = 11;
+  var numbOfLikes2 = 10;
+  var numbOfLikes3 = 9;
   List<Explore> exploreSection = [];
   List<AddNewProject> mostLikeProjects = [];
 
@@ -96,6 +99,22 @@ class _HomePageState extends State<HomePage> {
       exploreSection = newExploreSection;
     });
     return newExploreSection;
+  }
+
+  /// Other func ...
+  Future<List<AddNewProject>> getProject() async {
+    final response = await supabase.from('newProject').select().execute();
+
+    List<AddNewProject> newList = [];
+
+    for (var project in response.data) {
+      final projects = AddNewProject.fromJson(project);
+      newList.add(projects);
+    }
+    setState(() {
+      newList = mostLikeProjects;
+    });
+    return newList;
   }
 
   ///This method to get usr URL ...
@@ -142,6 +161,8 @@ class _HomePageState extends State<HomePage> {
     _controller3!.initialize().then((_) {
       setState(() {});
     });
+
+    getProject();
     super.initState();
   }
 
@@ -207,6 +228,11 @@ class _HomePageState extends State<HomePage> {
                         print(funcGetVideoURL());
                         log(_controller.toString());
                         _controller!.play();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ProjectDetails(pName: 'خضروات رهف')));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -242,11 +268,11 @@ class _HomePageState extends State<HomePage> {
                                   onTap: () {
                                     setState(() {
                                       isLiked = !isLiked;
-                                      numbOfLikes += isLiked ? 1 : -1;
+                                      numbOfLikes1 += isLiked ? 1 : -1;
                                     });
                                     supabase
                                         .from('newProject')
-                                        .update({'postLike': numbOfLikes})
+                                        .update({'postLike': numbOfLikes1})
                                         .eq('userName', userName())
                                         .execute();
                                   },
@@ -261,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                                   ]),
                                 ),
                               ]),
-                              const Text('i.pName'),
+                              const Text('خضروات رهف'),
                             ],
                           ),
                         ]),
@@ -307,11 +333,11 @@ class _HomePageState extends State<HomePage> {
                                   onTap: () {
                                     setState(() {
                                       isLiked = !isLiked;
-                                      numbOfLikes += isLiked ? 1 : -1;
+                                      numbOfLikes2 += isLiked ? 1 : -1;
                                     });
                                     supabase
                                         .from('newProject')
-                                        .update({'postLike': numbOfLikes})
+                                        .update({'postLike': numbOfLikes2})
                                         .eq('userName', userName())
                                         .execute();
                                   },
@@ -326,7 +352,7 @@ class _HomePageState extends State<HomePage> {
                                   ]),
                                 ),
                               ]),
-                              const Text('i.pName'),
+                              const Text('سبوتوفاي'),
                             ],
                           ),
                         ]),
@@ -370,11 +396,11 @@ class _HomePageState extends State<HomePage> {
                                   onTap: () {
                                     setState(() {
                                       isLiked = !isLiked;
-                                      numbOfLikes += isLiked ? 1 : -1;
+                                      numbOfLikes3 += isLiked ? 1 : -1;
                                     });
                                     supabase
                                         .from('newProject')
-                                        .update({'postLike': numbOfLikes})
+                                        .update({'postLike': numbOfLikes3})
                                         .eq('userName', userName())
                                         .execute();
                                   },
@@ -385,7 +411,7 @@ class _HomePageState extends State<HomePage> {
                                           : Icons.favorite_border,
                                       color: isLiked ? Colors.red : null),
                                 ),
-                                const Text('i.pName'),
+                                const Text('متجر غيداء'),
                               ]),
                         ]),
                       ),
