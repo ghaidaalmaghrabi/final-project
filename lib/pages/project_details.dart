@@ -366,7 +366,6 @@ class _ProjectCardState extends State<ProjectCard> {
           const SizedBox(height: 16),
           const Text('ديمو'),
           const Placeholder(
-            // fallbackWidth: 100,
             fallbackHeight: 300,
           ),
           Row(

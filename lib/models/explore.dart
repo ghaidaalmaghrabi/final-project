@@ -59,3 +59,36 @@ class AddNewProject {
     };
   }
 }
+
+/// Class USER INFORMATION ...
+class UserInfo {
+  final String usrId;
+  final String phoneNumber;
+  final String gitHubLink;
+  final String linkedin;
+
+  UserInfo({
+    required this.usrId,
+    required this.phoneNumber,
+    required this.gitHubLink,
+    required this.linkedin,
+  });
+
+  factory UserInfo.fromJson(Map<String, dynamic> json) {
+    return UserInfo(
+      usrId: json['usrId'],
+      phoneNumber: json['phoneNumber'],
+      gitHubLink: json['gitHubLink'],
+      linkedin: json['linkedin'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'usrId': usrId,
+      'phoneNumber': phoneNumber,
+      'gitHubLink': gitHubLink,
+      'linkedin': linkedin,
+    };
+  }
+}

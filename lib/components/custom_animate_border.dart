@@ -1,4 +1,3 @@
-
 import 'package:final_project/components/utils.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
@@ -9,8 +8,8 @@ class CustomAnimateBorder extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.strokeWidth = 2;
-    paint.color = Colors.cyan;
+    paint.strokeWidth = 1;
+    paint.color = Color(0xff0D1F38);
     paint.style = PaintingStyle.stroke;
 
     var path = Path();

@@ -62,6 +62,13 @@ class _HomePageState extends State<HomePage> {
     return newExploreSection;
   }
 
+  ///This method to get usr URL ...
+  String funcGetVideoURL() {
+    final response =
+        supabase.from('newProject').select().eq('gitHubLink', userName());
+    return response.toString();
+  }
+
   /// THIS METHOD IS USED TO GET VIDEO FROM SUPABASE ...
   getVideo() {
     return supabase.storage.from('demo-vid').getPublicUrl('videos/vid');
@@ -84,13 +91,13 @@ class _HomePageState extends State<HomePage> {
       setState(() {});
     });
 
-    /// Second Video ...
+    // /// Second Video ...
     _controller2 = VideoPlayerController.network(getVideo2());
     _controller2!.initialize().then((_) {
       setState(() {});
     });
 
-    /// Third Video ...
+    // /// Third Video ...
     _controller3 = VideoPlayerController.network(getVideo3());
     _controller3!.initialize().then((_) {
       setState(() {});
@@ -110,13 +117,21 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()));
           },
-          child: const Icon(Icons.list, color: Colors.grey),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child:
+                Image.asset('assets/images/setting.png', width: 50, height: 50),
+          ),
         ),
         automaticallyImplyLeading: false,
         title: Image.asset('assets/images/LogoName.png', height: 50),
-        actions: [Image.asset('assets/images/LogoPic.png', width: 50, height: 50), const SizedBox(width: 10)],
+        actions: [
+          Image.asset('assets/images/LogoPic.png', width: 50, height: 50),
+          const SizedBox(width: 10)
+        ],
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
@@ -128,10 +143,12 @@ class _HomePageState extends State<HomePage> {
             child: Column(children: [
               InkWell(
                 onTap: () {
-                  print(getVideo());
+                  print(funcGetVideoURL());
                   log('clicked');
                 },
-                child: const Align(alignment: Alignment.topRight, child: MyTitle('المشاريع الاكثر إعجابًا')),
+                child: const Align(
+                    alignment: Alignment.topRight,
+                    child: MyTitle('المشاريع الاكثر إعجابًا')),
               ),
               Container(
                 color: Colors.white,
@@ -141,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        print(getVideo());
+                        print(funcGetVideoURL());
                         log(_controller.toString());
                         _controller!.play();
                       },
@@ -194,7 +211,9 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        isLiked ? Icons.favorite : Icons.favorite_border,
+                                        isLiked
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
                                         color: isLiked ? Colors.red : null,
                                       ),
                                       Text(numbOfLikes.toString()),
@@ -264,7 +283,9 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        isLiked ? Icons.favorite : Icons.favorite_border,
+                                        isLiked
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
                                         color: isLiked ? Colors.red : null,
                                       ),
                                       Text(numbOfLikes.toString()),
@@ -334,7 +355,9 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        isLiked ? Icons.favorite : Icons.favorite_border,
+                                        isLiked
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
                                         color: isLiked ? Colors.red : null,
                                       ),
                                       Text(numbOfLikes.toString()),
@@ -350,7 +373,9 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              const Align(alignment: Alignment.topRight, child: MyTitle('استكشف المشاريع')),
+              const Align(
+                  alignment: Alignment.topRight,
+                  child: MyTitle('استكشف المشاريع')),
               const SizedBox(height: 20.0),
               SizedBox(
                 height: 380,
@@ -361,43 +386,56 @@ class _HomePageState extends State<HomePage> {
                         log(i.pName);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => DevelopersListPage(projectName: i.pName)),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DevelopersListPage(projectName: i.pName)),
                         );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 204, 218, 218),
-                          borderRadius:
-                              const BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(20)),
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(20)),
                           boxShadow: [
-                            BoxShadow(color: Colors.grey.withOpacity(0.5), offset: const Offset(0, 3), blurRadius: 4),
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                offset: const Offset(0, 3),
+                                blurRadius: 4),
                           ],
                         ),
                         child: Column(children: [
-                          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                            ProjectTitle(i.pName),
-                            const SizedBox(width: 20.0),
-                            WidgetCircularAnimator(
-                              innerColor: const Color(0xff70788A),
-                              outerColor: const Color(0xff455A64),
-                              innerAnimation: Curves.easeInOutBack,
-                              outerAnimation: Curves.easeInOutBack,
-                              size: 80,
-                              innerIconsSize: 3,
-                              outerIconsSize: 3,
-                              innerAnimationSeconds: 10,
-                              outerAnimationSeconds: 10,
-                              child: Container(
-                                decoration: BoxDecoration(color: Colors.grey[200], shape: BoxShape.circle),
-                                child: CircleAvatar(
-                                  backgroundColor: const Color(0xff034C5C),
-                                  radius: 32,
-                                  child: CircleAvatar(backgroundImage: NetworkImage(i.pImage), radius: 30),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ProjectTitle(i.pName),
+                                const SizedBox(width: 20.0),
+                                WidgetCircularAnimator(
+                                  innerColor: const Color(0xff70788A),
+                                  outerColor: const Color(0xff455A64),
+                                  innerAnimation: Curves.easeInOutBack,
+                                  outerAnimation: Curves.easeInOutBack,
+                                  size: 80,
+                                  innerIconsSize: 3,
+                                  outerIconsSize: 3,
+                                  innerAnimationSeconds: 10,
+                                  outerAnimationSeconds: 10,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        shape: BoxShape.circle),
+                                    child: CircleAvatar(
+                                      backgroundColor: const Color(0xff034C5C),
+                                      radius: 32,
+                                      child: CircleAvatar(
+                                          backgroundImage:
+                                              NetworkImage(i.pImage),
+                                          radius: 30),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ]),
+                              ]),
                           const SizedBox(height: 20.0),
                           Text(
                             i.pDescription,
@@ -420,3 +458,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
