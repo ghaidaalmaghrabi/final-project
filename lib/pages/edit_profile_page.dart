@@ -30,6 +30,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+//
   String userEmail() {
     final response = supabase.auth.currentUser?.email;
     return response.toString();
@@ -59,10 +60,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: const BoxDecoration(
-                    border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
+                    border:
+                        Border.fromBorderSide(BorderSide(color: Colors.grey)),
                   ),
                   child: TextField(
-                    decoration: InputDecoration(hintText: userName(), border: InputBorder.none),
+                    decoration: InputDecoration(
+                        hintText: userName(), border: InputBorder.none),
                     textAlign: TextAlign.end,
                   ),
                 ),
@@ -70,10 +73,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: const BoxDecoration(
-                    border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
+                    border:
+                        Border.fromBorderSide(BorderSide(color: Colors.grey)),
                   ),
                   child: TextField(
-                    decoration: InputDecoration(hintText: userEmail(), border: InputBorder.none),
+                    decoration: InputDecoration(
+                        hintText: userEmail(), border: InputBorder.none),
                     textAlign: TextAlign.end,
                   ),
                 ),
@@ -81,7 +86,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: const BoxDecoration(
-                    border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
+                    border:
+                        Border.fromBorderSide(BorderSide(color: Colors.grey)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -96,10 +102,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: const BoxDecoration(
-                    border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
+                    border:
+                        Border.fromBorderSide(BorderSide(color: Colors.grey)),
                   ),
                   child: const TextField(
-                    decoration: InputDecoration(hintText: 'github link here', border: InputBorder.none),
+                    decoration: InputDecoration(
+                        hintText: 'github link here', border: InputBorder.none),
                     textAlign: TextAlign.end,
                   ),
                 ),
@@ -107,10 +115,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: const BoxDecoration(
-                    border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
+                    border:
+                        Border.fromBorderSide(BorderSide(color: Colors.grey)),
                   ),
                   child: const TextField(
-                    decoration: InputDecoration(hintText: 'github link here', border: InputBorder.none),
+                    decoration: InputDecoration(
+                        hintText: 'github link here', border: InputBorder.none),
                     textAlign: TextAlign.end,
                   ),
                 ),
