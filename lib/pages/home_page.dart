@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                 MaterialPageRoute(builder: (context) => const SettingsPage()));
           },
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
             child:
                 Image.asset('assets/images/setting.png', width: 50, height: 50),
           ),

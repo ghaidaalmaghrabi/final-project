@@ -35,7 +35,7 @@ class OnboardingPage extends StatelessWidget {
       title: 'كُود تِك',
       subtitle: 'قُم بالتسجيل و عرض مشاريعك، او تصفّح المشاريع البرمجيّة ',
       image: const AssetImage("assets/images/codetech-logo.png"),
-      backgroundColor: Color.fromARGB(255, 226, 226, 226),
+      backgroundColor: Color.fromARGB(255, 237, 232, 227),
       titleColor: Colors.yellow,
       subtitleColor: const Color(0xFF0D1F38),
       background: LottieBuilder.asset("assets/animation/animpage3.json"),

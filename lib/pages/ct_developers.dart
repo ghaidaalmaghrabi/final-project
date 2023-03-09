@@ -59,31 +59,37 @@ class CTDevelopers extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Image.asset('assets/images/codetech-logo.png',
-              width: 200, height: 200),
-          Expanded(
-            child: Container(
-              // padding: const EdgeInsets.all(18.0),
-              child: VerticalCardPager(
-                  titles: titles, // required
-                  images: images, // required
-                  textStyle: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold), // optional
-                  onPageChanged: (page) {
-                    // optional
-                  },
-                  onSelectedItem: (index) {
-                    // optional
-                  },
-                  initialPage: 0, // optional
-                  align: ALIGN.CENTER // optional
-                  ),
+      body: Container(
+        height: 1000,
+        decoration: const BoxDecoration(
+          color: Color(0xFF0D1F38),
+        ),
+        child: Column(
+          children: [
+            // Image.asset('assets/images/codetech-logo.png',
+            //     width: 200, height: 200),
+            Expanded(
+              child: Container(
+                // padding: const EdgeInsets.all(18.0),
+                child: VerticalCardPager(
+                    titles: titles, // required
+                    images: images, // required
+                    textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold), // optional
+                    onPageChanged: (page) {
+                      // optional
+                    },
+                    onSelectedItem: (index) {
+                      // optional
+                    },
+                    initialPage: 0, // optional
+                    align: ALIGN.CENTER // optional
+                    ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       backgroundColor: Colors.white,
     );

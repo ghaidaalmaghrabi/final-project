@@ -20,7 +20,11 @@ class _DevelopersListPageState extends State<DevelopersListPage> {
   /// This method to get data from supabase ...
 
   Future<List<AddNewProject>> getProjects() async {
-    final response = await supabase.from('newProject').select('*').eq('pId', widget.projectName).execute();
+    final response = await supabase
+        .from('newProject')
+        .select('*')
+        .eq('pId', widget.projectName)
+        .execute();
 
     List<AddNewProject> newList = [];
 
@@ -85,7 +89,7 @@ class _DevelopersListPageState extends State<DevelopersListPage> {
                             color: isLiked ? Colors.red : Colors.white,
                           ),
                           Text(
-                            i.likes.toString(),
+                            i.postLike.toString(),
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

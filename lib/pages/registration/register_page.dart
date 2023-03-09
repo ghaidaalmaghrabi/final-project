@@ -108,9 +108,9 @@ class _LayerThreeState extends State<LayerThree> {
         );
       }
     } catch (e) {
-      setState(() {
-        weak = 'الإيميل مسجل مسبقًا';
-      });
+      // setState(() {
+      //   weak = 'الإيميل مسجل مسبقًا';
+      // });
 
       // showDialog(
       //     context: context,
