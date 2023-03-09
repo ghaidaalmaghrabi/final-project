@@ -13,12 +13,15 @@ class MyButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 30,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: const LinearGradient(colors: [
-              Color.fromRGBO(74, 139, 86, 1),
-              Color.fromRGBO(71, 125, 120, 0.6),
-            ])),
+        decoration: const BoxDecoration(
+          color: Color(0xFF0D1F38),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
+        ),
         child: Center(
           child: Text(
             title,

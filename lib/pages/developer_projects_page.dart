@@ -135,195 +135,148 @@ class _DeveloperPageState extends State<DeveloperPage> {
           Column(
             children: [
               Container(
-                padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
                 decoration: const BoxDecoration(
-                  color: Color(0xffA7D3D6),
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(40),
                       bottomRight: Radius.circular(40)),
                 ),
                 width: double.infinity,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40)),
-                  ),
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      LottieBuilder.asset('assets/animation/green-waves.json'),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                        child: Column(children: <Widget>[
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                    onTap: () async {
-                                      setState(() {
-                                        uploadState = false;
-                                      });
-                                      var pickedFile = await FilePicker.platform
-                                          .pickFiles(allowMultiple: false);
-                                      if (pickedFile != null) {
-                                        final file = File(
-                                            pickedFile.files.first.path ?? '');
-                                        await supabase.storage
-                                            .from('pdf-file')
-                                            .upload(pickedFile.files.first.name,
-                                                file)
-                                            .then((value) {
-                                          print(value);
-                                          setState(() {
-                                            uploadState = true;
-                                          });
-                                        }).onError((error, stackTrace) {
-                                          log(error.toString());
-                                          setState(() {
-                                            uploadState = true;
-                                            AwesomeDialog(
-                                              context: context,
-                                              animType: AnimType.leftSlide,
-                                              headerAnimationLoop: false,
-                                              dialogType: DialogType.success,
-                                              showCloseIcon: true,
-                                              title:
-                                                  'تم تحميل السيرة الذاتية بنجاح',
-                                              btnOkOnPress: () {
-                                                debugPrint('OnClcik');
-                                              },
-                                              btnOkIcon: Icons.check_circle,
-                                              onDismissCallback: (type) {
-                                                debugPrint(
-                                                    'Dialog Dissmiss from callback $type');
-                                              },
-                                            ).show();
-                                          });
+                child: Stack(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: 1000,
+                      width: 500,
+                      child: LottieBuilder.asset(
+                        'assets/animation/holographic-gradient.json',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                      child: Column(children: <Widget>[
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    setState(() {
+                                      uploadState = false;
+                                    });
+                                    var pickedFile = await FilePicker.platform
+                                        .pickFiles(allowMultiple: false);
+                                    if (pickedFile != null) {
+                                      final file = File(
+                                          pickedFile.files.first.path ?? '');
+                                      await supabase.storage
+                                          .from('pdf-file')
+                                          .upload(
+                                              pickedFile.files.first.name, file)
+                                          .then((value) {
+                                        print(value);
+                                        setState(() {
+                                          uploadState = true;
                                         });
-                                      }
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/resume.png',
-                                          width: 30,
-                                          height: 30,
-                                        ),
-                                        Text(
-                                          'رفع السيرة الذاتية',
-                                          style: GoogleFonts.ibmPlexSansArabic(
-                                              fontSize: 14),
-                                        ),
-                                      ],
-                                    ),
+                                      }).onError((error, stackTrace) {
+                                        log(error.toString());
+                                        setState(() {
+                                          uploadState = true;
+                                          AwesomeDialog(
+                                            context: context,
+                                            animType: AnimType.leftSlide,
+                                            headerAnimationLoop: false,
+                                            dialogType: DialogType.success,
+                                            showCloseIcon: true,
+                                            title:
+                                                'تم تحميل السيرة الذاتية بنجاح',
+                                            btnOkOnPress: () {
+                                              debugPrint('OnClcik');
+                                            },
+                                            btnOkIcon: Icons.check_circle,
+                                            onDismissCallback: (type) {
+                                              debugPrint(
+                                                  'Dialog Dissmiss from callback $type');
+                                            },
+                                          ).show();
+                                        });
+                                      });
+                                    }
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/resume.png',
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(
+                                        'رفع السيرة الذاتية',
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            fontSize: 14),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    width: 100,
-                                  ),
-                                  UserNameTitle(userName()),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  const AvatarGlow(
-                                    endRadius: 50,
-                                    shape: BoxShape.circle,
-                                    duration: Duration(milliseconds: 2000),
-                                    repeat: true,
-                                    animate: true,
-                                    repeatPauseDuration:
-                                        Duration(milliseconds: 200),
-                                    curve: Curves.fastOutSlowIn,
-                                    showTwoGlows: true,
-                                    glowColor: Colors.red,
-                                    startDelay: Duration(milliseconds: 1000),
-                                    child: CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            'assets/images/profilepic.webp'),
-                                        radius: 40.0),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  for (var i in info)
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            InkWell(
-                                              onTap: () => launchUrl(
-                                                  Uri.parse(i.linkedin)),
-                                              child: Text(
-                                                i.linkedin,
-                                                style: GoogleFonts
-                                                    .ibmPlexSansArabic(
-                                                  fontSize: 12,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  color: Colors.blue,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Image.asset(
-                                                'assets/images/linkedin.png',
-                                                width: 16,
-                                                height: 16),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 12),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            InkWell(
-                                              onTap: () => launchUrl(
-                                                  Uri.parse(i.gitHubLink)),
-                                              child: Text(
-                                                i.gitHubLink,
-                                                style: GoogleFonts
-                                                    .ibmPlexSansArabic(
-                                                  fontSize: 12,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  color: Colors.blue,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Image.asset(
-                                                'assets/images/github-logo.png',
-                                                width: 16,
-                                                height: 16),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                ),
+                                const SizedBox(
+                                  width: 100,
+                                ),
+                                UserNameTitle(userName()),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                const AvatarGlow(
+                                  endRadius: 40,
+                                  shape: BoxShape.circle,
+                                  duration: Duration(milliseconds: 2000),
+                                  repeat: true,
+                                  animate: true,
+                                  repeatPauseDuration:
+                                      Duration(milliseconds: 200),
+                                  curve: Curves.fastOutSlowIn,
+                                  showTwoGlows: true,
+                                  glowColor: Colors.red,
+                                  startDelay: Duration(milliseconds: 1000),
+                                  child: CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          'assets/images/profilepic.webp'),
+                                      radius: 30.0),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                for (var i in info)
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: [
-                                          UserInfoTitle(userEmail()),
+                                          InkWell(
+                                            onTap: () => launchUrl(
+                                                Uri.parse(i.linkedin)),
+                                            child: Text(
+                                              i.linkedin,
+                                              style:
+                                                  GoogleFonts.ibmPlexSansArabic(
+                                                fontSize: 12,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          ),
                                           const SizedBox(width: 12),
                                           Image.asset(
-                                            'assets/images/email.png',
-                                            width: 16,
-                                            height: 16,
-                                          ),
+                                              'assets/images/linkedin.png',
+                                              width: 16,
+                                              height: 16),
                                         ],
                                       ),
                                       const SizedBox(height: 12),
@@ -331,73 +284,106 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: [
-                                          for (var i in info)
-                                            UserInfoTitle(i.phoneNumber),
+                                          InkWell(
+                                            onTap: () => launchUrl(
+                                                Uri.parse(i.gitHubLink)),
+                                            child: Text(
+                                              i.gitHubLink,
+                                              style:
+                                                  GoogleFonts.ibmPlexSansArabic(
+                                                fontSize: 12,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          ),
                                           const SizedBox(width: 12),
                                           Image.asset(
-                                            'assets/images/phone-call.png',
-                                            width: 16,
-                                            height: 16,
-                                          ),
+                                              'assets/images/github-logo.png',
+                                              width: 16,
+                                              height: 16),
                                         ],
                                       ),
                                     ],
                                   ),
-                                  Column(),
-                                  Column(),
-                                ],
+                                Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        UserInfoTitle(userEmail()),
+                                        const SizedBox(width: 12),
+                                        Image.asset(
+                                          'assets/images/email.png',
+                                          width: 16,
+                                          height: 16,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        for (var i in info)
+                                          UserInfoTitle(i.phoneNumber),
+                                        const SizedBox(width: 12),
+                                        Image.asset(
+                                          'assets/images/phone-call.png',
+                                          width: 16,
+                                          height: 16,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Column(),
+                                Column(),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ]),
+                    ),
+                    Positioned(
+                      top: 150,
+                      left: 15,
+                      child: Container(
+                        height: 1000,
+                        width: 400,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                        ),
+                        child: Column(children: [
+                          const CTTextFieldTittle('المشاريع'),
+                          Column(children: [
+                            for (var i in projectList) ...[
+                              InkWell(
+                                onTap: () {
+                                  log(i.pName);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProjectDetails(
+                                        pName: i.pName,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: ProjectCard(desc: i.pDescription),
                               ),
                             ],
-                          ),
+                          ]),
+                          uploadState
+                              ? const Text('')
+                              : const CircularProgressIndicator(),
                         ]),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 14, top: 14, right: 14),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 228, 235, 238),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)),
-                ),
-                height: 1000,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40)),
-                  ),
-                  child: Column(children: [
-                    const CTTextFieldTittle('المشاريع'),
-                    Column(children: [
-                      for (var i in projectList) ...[
-                        InkWell(
-                          onTap: () {
-                            log(i.pName);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProjectDetails(
-                                  pName: i.pName,
-                                ),
-                              ),
-                            );
-                          },
-                          child: ProjectCard(desc: i.pDescription),
-                        ),
-                      ],
-                    ]),
-                    uploadState
-                        ? const Text('')
-                        : const CircularProgressIndicator(),
-                  ]),
+                    ),
+                  ],
                 ),
               ),
             ],

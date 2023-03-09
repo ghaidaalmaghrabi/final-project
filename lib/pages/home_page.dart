@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:final_project/models/explore.dart';
 import 'package:final_project/pages/developers_list_page.dart';
 import 'package:final_project/pages/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:video_player/video_player.dart';
 import 'package:widget_circular_animator/widget_circular_animator.dart';
@@ -19,6 +21,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int index = 0;
+  late final Timer timer;
+  final ImageProvider = [
+    Image.asset(
+      'assets/images/ui1.webp',
+      fit: BoxFit.cover,
+      key: const Key('1'),
+    ),
+    Image.asset(
+      'assets/images/ui2.webp',
+      fit: BoxFit.cover,
+      key: const Key('2'),
+    ),
+    // Image.asset(
+    //   'assets/images/ui3.webp',
+    //   fit: BoxFit.cover,
+    //   key: Key('3'),
+    // ),
+    Image.asset(
+      'assets/images/ui4.jpeg',
+      fit: BoxFit.cover,
+      key: Key('3'),
+    ),
+    Image.asset(
+      'assets/images/ui5.jpeg',
+      fit: BoxFit.cover,
+      key: Key('4'),
+    ),
+    // Image.asset(
+    //   'assets/images/ui6.jpeg',
+    //   fit: BoxFit.cover,
+    //   key: Key('6'),
+    // ),
+  ];
   bool isLiked = false;
   var numbOfLikes = 0;
   List<Explore> exploreSection = [];
@@ -85,6 +121,10 @@ class _HomePageState extends State<HomePage> {
   /// INIT STATE ...
   @override
   void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      setState(() => index++);
+    });
     getExploreSection();
     _controller = VideoPlayerController.network(getVideo());
     _controller!.initialize().then((_) {
@@ -108,6 +148,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _controller!.dispose();
+    timer.cancel();
     super.dispose();
   }
 
@@ -141,6 +182,10 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(15.0),
             color: Colors.white,
             child: Column(children: [
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 1500),
+                child: ImageProvider[index % ImageProvider.length],
+              ),
               InkWell(
                 onTap: () {
                   print(funcGetVideoURL());
@@ -152,9 +197,10 @@ class _HomePageState extends State<HomePage> {
               ),
               Container(
                 color: Colors.white,
-                height: 250.0,
+                height: 195.0,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
+                  reverse: true,
                   children: [
                     InkWell(
                       onTap: () {
@@ -165,37 +211,33 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: const BoxDecoration(
-                          color: Color(0xffECEFF1),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
+                          color: Color(0xffDAD5D1),
+                          borderRadius: BorderRadius.all(Radius.circular(14)),
                         ),
-                        width: 160.0,
-                        margin: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            const Align(
-                              alignment: Alignment.topRight,
-                              child: Text('i.pName'),
-                            ),
-                            SizedBox(
-                              width: 100.0,
-                              height: 160.0,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(16),
-                                  ),
-                                ),
-                                clipBehavior: Clip.hardEdge,
-                                child: AspectRatio(
-                                  aspectRatio: _controller!.value.aspectRatio,
-                                  child: VideoPlayer(_controller!),
-                                ),
+                        width: 130.0,
+                        margin: const EdgeInsets.all(6),
+                        child: Column(children: [
+                          SizedBox(
+                            width: 80.0,
+                            height: 130.0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16)),
                               ),
+                              clipBehavior: Clip.hardEdge,
+                              child: AspectRatio(
+                                  aspectRatio: _controller!.value.aspectRatio,
+                                  child: VideoPlayer(_controller!)),
                             ),
-                            Row(
-                              children: [
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(children: [
                                 InkWell(
                                   onTap: () {
                                     setState(() {
@@ -208,26 +250,23 @@ class _HomePageState extends State<HomePage> {
                                         .eq('userName', userName())
                                         .execute();
                                   },
-                                  child: Row(
-                                    children: [
-                                      Icon(
+                                  child: Row(children: [
+                                    Icon(
+                                        size: 18,
                                         isLiked
                                             ? Icons.favorite
                                             : Icons.favorite_border,
-                                        color: isLiked ? Colors.red : null,
-                                      ),
-                                      Text(numbOfLikes.toString()),
-                                    ],
-                                  ),
+                                        color: isLiked ? Colors.red : null),
+                                    // Text(numbOfLikes.toString())
+                                  ]),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ]),
+                              const Text('i.pName'),
+                            ],
+                          ),
+                        ]),
                       ),
                     ),
-
-                    /// Second Card ...
                     InkWell(
                       onTap: () {
                         print(getVideo2());
@@ -237,37 +276,33 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: const BoxDecoration(
-                          color: Color(0xffECEFF1),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
+                          color: Color.fromARGB(255, 209, 218, 214),
+                          borderRadius: BorderRadius.all(Radius.circular(14)),
                         ),
-                        width: 160.0,
-                        margin: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            const Align(
-                              alignment: Alignment.topRight,
-                              child: Text('i.pName'),
-                            ),
-                            SizedBox(
-                              width: 100.0,
-                              height: 160.0,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(16),
-                                  ),
-                                ),
-                                clipBehavior: Clip.hardEdge,
-                                child: AspectRatio(
-                                  aspectRatio: _controller2!.value.aspectRatio,
-                                  child: VideoPlayer(_controller2!),
-                                ),
+                        width: 130.0,
+                        margin: const EdgeInsets.all(6),
+                        child: Column(children: [
+                          SizedBox(
+                            width: 80.0,
+                            height: 130.0,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16)),
                               ),
+                              clipBehavior: Clip.hardEdge,
+                              child: AspectRatio(
+                                  aspectRatio: _controller2!.value.aspectRatio,
+                                  child: VideoPlayer(_controller2!)),
                             ),
-                            Row(
-                              children: [
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(children: [
                                 InkWell(
                                   onTap: () {
                                     setState(() {
@@ -280,26 +315,23 @@ class _HomePageState extends State<HomePage> {
                                         .eq('userName', userName())
                                         .execute();
                                   },
-                                  child: Row(
-                                    children: [
-                                      Icon(
+                                  child: Row(children: [
+                                    Icon(
+                                        size: 18,
                                         isLiked
                                             ? Icons.favorite
                                             : Icons.favorite_border,
-                                        color: isLiked ? Colors.red : null,
-                                      ),
-                                      Text(numbOfLikes.toString()),
-                                    ],
-                                  ),
+                                        color: isLiked ? Colors.red : null),
+                                    // Text(numbOfLikes.toString())
+                                  ]),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ]),
+                              const Text('i.pName'),
+                            ],
+                          ),
+                        ]),
                       ),
                     ),
-
-                    /// Third Card ...
                     InkWell(
                       onTap: () {
                         print(getVideo2());
@@ -309,36 +341,30 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: const BoxDecoration(
-                          color: Color(0xffECEFF1),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                        width: 160.0,
-                        margin: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            const Align(
-                              alignment: Alignment.topRight,
-                              child: Text('i.pName'),
-                            ),
-                            SizedBox(
-                              width: 100.0,
-                              height: 160.0,
-                              child: Container(
+                            color: Color.fromARGB(255, 212, 219, 223),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(14))),
+                        width: 130.0,
+                        margin: const EdgeInsets.all(6),
+                        child: Column(children: [
+                          SizedBox(
+                            width: 80.0,
+                            height: 130.0,
+                            child: Container(
                                 decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(16),
-                                  ),
-                                ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16))),
                                 clipBehavior: Clip.hardEdge,
                                 child: AspectRatio(
-                                  aspectRatio: _controller3!.value.aspectRatio,
-                                  child: VideoPlayer(_controller3!),
-                                ),
-                              ),
-                            ),
-                            Row(
+                                    aspectRatio:
+                                        _controller3!.value.aspectRatio,
+                                    child: VideoPlayer(_controller3!))),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
                                   onTap: () {
@@ -352,33 +378,30 @@ class _HomePageState extends State<HomePage> {
                                         .eq('userName', userName())
                                         .execute();
                                   },
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        isLiked
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color: isLiked ? Colors.red : null,
-                                      ),
-                                      Text(numbOfLikes.toString()),
-                                    ],
-                                  ),
+                                  child: Icon(
+                                      size: 18,
+                                      isLiked
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: isLiked ? Colors.red : null),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                const Text('i.pName'),
+                              ]),
+                        ]),
                       ),
                     ),
                   ],
                 ),
               ),
+              SizedBox(
+                height: 8,
+              ),
               const Align(
                   alignment: Alignment.topRight,
                   child: MyTitle('استكشف المشاريع')),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 8),
               SizedBox(
-                height: 380,
+                height: 300,
                 child: ListView(children: [
                   for (var i in exploreSection) ...[
                     InkWell(
@@ -394,10 +417,12 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 204, 218, 218),
+                          color: Color.fromARGB(255, 214, 221, 225),
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(20)),
+                              topRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
@@ -412,8 +437,8 @@ class _HomePageState extends State<HomePage> {
                                 ProjectTitle(i.pName),
                                 const SizedBox(width: 20.0),
                                 WidgetCircularAnimator(
-                                  innerColor: const Color(0xff70788A),
-                                  outerColor: const Color(0xff455A64),
+                                  innerColor: Color.fromARGB(255, 192, 75, 75),
+                                  outerColor: Color.fromARGB(255, 14, 141, 26),
                                   innerAnimation: Curves.easeInOutBack,
                                   outerAnimation: Curves.easeInOutBack,
                                   size: 80,
@@ -437,12 +462,22 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ]),
                           const SizedBox(height: 20.0),
-                          Text(
-                            i.pDescription,
-                            textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
+
+                          Text(i.pDescription,
+                              style: GoogleFonts.ibmPlexSansArabic(
+                                  color: Color(0xFF0D1F38),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal),
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.right,
+                              maxLines: 2),
+
+                          // Text(
+                          //   i.pDescription,
+                          //   textAlign: TextAlign.right,
+                          //   overflow: TextOverflow.ellipsis,
+                          //   maxLines: 2,
+                          // ),
                         ]),
                       ),
                     ),
