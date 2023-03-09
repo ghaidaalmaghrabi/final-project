@@ -92,7 +92,9 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
     final fileName = _selectedVideo!.path.split('/').last;
     final bytes = await _selectedVideo!.readAsBytes();
 
-    final response = await supabase.storage.from('demo-vid').uploadBinary('videos/$fileName', bytes);
+    final response = await supabase.storage
+        .from('demo-vid')
+        .uploadBinary('videos/$fileName', bytes);
   }
 
   /// DISPOSE CONTROLLERS ...
@@ -141,7 +143,8 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                     padding: const EdgeInsets.all(16),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
-                        items: <String>['Flutter', 'Swift', 'UI / UX'].map<DropdownMenuItem<String>>((String value) {
+                        items: <String>['Flutter', 'Swift', 'UI / UX']
+                            .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -154,7 +157,10 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                           });
                           print(newValue);
                         },
-                        style: const TextStyle(color: Colors.blueGrey, fontSize: 16, fontWeight: FontWeight.normal),
+                        style: const TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal),
                         isExpanded: true,
                         buttonStyleData: ButtonStyleData(
                           height: 40,
@@ -175,16 +181,20 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                           maxHeight: 200,
                           width: 200,
                           padding: null,
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(14)),
                           elevation: 8,
                           offset: const Offset(-20, 0),
                           scrollbarTheme: ScrollbarThemeData(
-                              thumbVisibility: MaterialStateProperty.all<bool>(true),
+                              thumbVisibility:
+                                  MaterialStateProperty.all<bool>(true),
                               thickness: MaterialStateProperty.all<double>(6),
                               radius: const Radius.circular(40)),
                         ),
-                        menuItemStyleData:
-                            const MenuItemStyleData(height: 40, padding: EdgeInsets.only(left: 14, right: 14)),
+                        menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14)),
                       ),
                     ),
                   ),
@@ -223,16 +233,26 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const JumpingDots(
-                      color: Colors.blueGrey,
-                      radius: 10,
+                    Image.network(
+                      'https://cdn-icons-png.flaticon.com/512/4144/4144765.png',
+                      height: 45,
                     ),
+                    const SizedBox(
+                      width: 190,
+                    ),
+
+                    // const JumpingDots(
+                    //   color: Colors.blueGrey,
+                    //   radius: 10,
+                    // ),
                     SizedBox(
                       width: 160,
                       height: 40,
-                      child: UploadVidButton(title: 'تحميل مقطع الفيديو', onTap: pickVideo),
+                      child: UploadVidButton(
+                          title: 'تحميل مقطع الفيديو', onTap: pickVideo),
                     ),
                   ],
                 ),
@@ -252,7 +272,9 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                         gitHubLink: projectLinkController.text,
                         userName: userName(),
                       );
-                      final response = await supabase.from('newProject').insert([project.toJson()]);
+                      final response = await supabase
+                          .from('newProject')
+                          .insert([project.toJson()]);
                       await uploadVideoToSupabase();
                     },
                   ),

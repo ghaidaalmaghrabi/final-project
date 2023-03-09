@@ -32,7 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           Icon(Icons.house_siding_rounded, size: 30, color: Colors.white),
         ],
         index: currentIndex,
-        color: const Color(0xff434B53),
+        color: const Color(0xff0D1F38),
         buttonBackgroundColor: const Color(0xffB6C4D1),
         backgroundColor: Colors.white,
         onTap: (newindex) {

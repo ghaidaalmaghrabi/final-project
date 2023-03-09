@@ -62,7 +62,7 @@ class CTDevelopers extends StatelessWidget {
       body: Container(
         height: 1000,
         decoration: const BoxDecoration(
-          color: Color(0xFF0D1F38),
+          color: Color.fromARGB(255, 248, 245, 242),
         ),
         child: Column(
           children: [

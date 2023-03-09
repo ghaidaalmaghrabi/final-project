@@ -10,7 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'ct_developers.dart';
 import 'onBoarding_animation.dart';
-
+//
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 

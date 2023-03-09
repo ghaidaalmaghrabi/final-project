@@ -11,7 +11,7 @@ class MyTitle extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.ibmPlexSansArabic(
-          color: Color(0xFF1C4E4E),
+          color: Color(0xFF0D1F38),
           fontSize: 20,
           fontWeight: FontWeight.normal),
     );
