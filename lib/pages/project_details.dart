@@ -54,11 +54,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 
   /// This method is used to get projects from supabase ...
   Future<List<AddNewProject>> getProjects() async {
-    final response = await supabase
-        .from('newProject')
-        .select()
-        .eq('pName', widget.pName)
-        .execute();
+    final response = await supabase.from('newProject').select().eq('pName', widget.pName).execute();
 
     List<AddNewProject> newList = [];
 
@@ -94,10 +90,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
         ),
         automaticallyImplyLeading: false,
         title: Image.asset('assets/images/LogoName.png', height: 50),
-        actions: [
-          Image.asset('assets/images/LogoPic.png', width: 50, height: 50),
-          const SizedBox(width: 10)
-        ],
+        actions: [Image.asset('assets/images/LogoPic.png', width: 50, height: 50), const SizedBox(width: 10)],
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
@@ -106,262 +99,227 @@ class _ProjectDetailsState extends State<ProjectDetails> {
           Column(
             children: [
               Container(
-                padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
                 decoration: const BoxDecoration(
-                  color: Color(0xffA7D3D6),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40)),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
                 ),
                 width: double.infinity,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40)),
-                  ),
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      LottieBuilder.asset('assets/animation/green-waves.json'),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                        child: Column(children: <Widget>[
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  InkWell(
-                                    onTap: () async {
-                                      setState(() {
-                                        uploadState = false;
-                                      });
-                                      var pickedFile = await FilePicker.platform
-                                          .pickFiles(allowMultiple: false);
-                                      if (pickedFile != null) {
-                                        final file = File(
-                                            pickedFile.files.first.path ?? '');
-                                        await supabase.storage
-                                            .from('pdf-file')
-                                            .upload(pickedFile.files.first.name,
-                                                file)
-                                            .then((value) {
-                                          print(value);
-                                          setState(() {
-                                            uploadState = true;
-                                          });
-                                        }).onError((error, stackTrace) {
-                                          log(error.toString());
-                                          setState(() {
-                                            uploadState = true;
-                                            AwesomeDialog(
-                                              context: context,
-                                              animType: AnimType.leftSlide,
-                                              headerAnimationLoop: false,
-                                              dialogType: DialogType.success,
-                                              showCloseIcon: true,
-                                              title:
-                                                  'تم تحميل السيرة الذاتية بنجاح',
-                                              btnOkOnPress: () {
-                                                debugPrint('OnClcik');
-                                              },
-                                              btnOkIcon: Icons.check_circle,
-                                              onDismissCallback: (type) {
-                                                debugPrint(
-                                                    'Dialog Dissmiss from callback $type');
-                                              },
-                                            ).show();
-                                          });
+                child: Stack(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 1000,
+                      width: 500,
+                      child: LottieBuilder.asset(
+                        'assets/animation/holographic-gradient.json',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                      child: Column(children: <Widget>[
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    setState(() {
+                                      uploadState = false;
+                                    });
+                                    var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
+                                    if (pickedFile != null) {
+                                      final file = File(pickedFile.files.first.path ?? '');
+                                      await supabase.storage
+                                          .from('pdf-file')
+                                          .upload(pickedFile.files.first.name, file)
+                                          .then((value) {
+                                        print(value);
+                                        setState(() {
+                                          uploadState = true;
                                         });
-                                      }
-                                    },
-                                    child: Column(
+                                      }).onError((error, stackTrace) {
+                                        log(error.toString());
+                                        setState(() {
+                                          uploadState = true;
+                                          AwesomeDialog(
+                                            context: context,
+                                            animType: AnimType.leftSlide,
+                                            headerAnimationLoop: false,
+                                            dialogType: DialogType.success,
+                                            showCloseIcon: true,
+                                            title: 'تم تحميل السيرة الذاتية بنجاح',
+                                            btnOkOnPress: () {
+                                              debugPrint('OnClcik');
+                                            },
+                                            btnOkIcon: Icons.check_circle,
+                                            onDismissCallback: (type) {
+                                              debugPrint('Dialog Dissmiss from callback $type');
+                                            },
+                                          ).show();
+                                        });
+                                      });
+                                    }
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/resume.png',
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      Text(
+                                        'رفع السيرة الذاتية',
+                                        style: GoogleFonts.ibmPlexSansArabic(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 100,
+                                ),
+                                UserNameTitle(userName()),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                const AvatarGlow(
+                                  endRadius: 50,
+                                  shape: BoxShape.circle,
+                                  duration: Duration(milliseconds: 2000),
+                                  repeat: true,
+                                  animate: true,
+                                  repeatPauseDuration: Duration(milliseconds: 200),
+                                  curve: Curves.fastOutSlowIn,
+                                  showTwoGlows: true,
+                                  glowColor: Colors.red,
+                                  startDelay: Duration(milliseconds: 1000),
+                                  child: CircleAvatar(
+                                      backgroundImage: AssetImage('assets/images/profilepic.webp'), radius: 40.0),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Image.asset(
-                                          'assets/images/resume.png',
-                                          width: 30,
-                                          height: 30,
+                                        InkWell(
+                                          onTap: () => launchUrl(Uri.parse('https://www.linkedin.com/in/rhf-alharbi/')),
+                                          child: Text(
+                                            'linkedin.com/rhf-alharbi.com',
+                                            style: GoogleFonts.ibmPlexSansArabic(
+                                              fontSize: 12,
+                                              decoration: TextDecoration.underline,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
                                         ),
-                                        Text(
-                                          'رفع السيرة الذاتية',
-                                          style: GoogleFonts.ibmPlexSansArabic(
-                                              fontSize: 14),
+                                        const SizedBox(width: 12),
+                                        Image.asset('assets/images/linkedin.png', width: 16, height: 16),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                          onTap: () => launchUrl(Uri.parse('https://github.com/rhfhr')),
+                                          child: Text(
+                                            'github.com/rhfhr.com',
+                                            style: GoogleFonts.ibmPlexSansArabic(
+                                              fontSize: 12,
+                                              decoration: TextDecoration.underline,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Image.asset('assets/images/github-logo.png', width: 16, height: 16),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        UserInfoTitle(userEmail()),
+                                        const SizedBox(width: 12),
+                                        Image.asset(
+                                          'assets/images/email.png',
+                                          width: 16,
+                                          height: 16,
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 100,
-                                  ),
-                                  UserNameTitle(userName()),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  const AvatarGlow(
-                                    endRadius: 50,
-                                    shape: BoxShape.circle,
-                                    duration: Duration(milliseconds: 2000),
-                                    repeat: true,
-                                    animate: true,
-                                    repeatPauseDuration:
-                                        Duration(milliseconds: 200),
-                                    curve: Curves.fastOutSlowIn,
-                                    showTwoGlows: true,
-                                    glowColor: Colors.red,
-                                    startDelay: Duration(milliseconds: 1000),
-                                    child: CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            'assets/images/profilepic.webp'),
-                                        radius: 40.0),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          InkWell(
-                                            onTap: () => launchUrl(Uri.parse(
-                                                'https://www.linkedin.com/in/rhf-alharbi/')),
-                                            child: Text(
-                                              'linkedin.com/rhf-alharbi.com',
-                                              style:
-                                                  GoogleFonts.ibmPlexSansArabic(
-                                                fontSize: 12,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Image.asset(
-                                              'assets/images/linkedin.png',
-                                              width: 16,
-                                              height: 16),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 12),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          InkWell(
-                                            onTap: () => launchUrl(Uri.parse(
-                                                'https://github.com/rhfhr')),
-                                            child: Text(
-                                              'github.com/rhfhr.com',
-                                              style:
-                                                  GoogleFonts.ibmPlexSansArabic(
-                                                fontSize: 12,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 12),
-                                          Image.asset(
-                                              'assets/images/github-logo.png',
-                                              width: 16,
-                                              height: 16),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          UserInfoTitle(userEmail()),
-                                          const SizedBox(width: 12),
-                                          Image.asset(
-                                            'assets/images/email.png',
-                                            width: 16,
-                                            height: 16,
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 12),
-                                      // Container(
-                                      //   color: Colors.blueGrey.shade300,
-                                      //   width: 120,
-                                      //   height: 1,
-                                      // ),
-                                      // const SizedBox(height: 12),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          const UserInfoTitle('0532132170'),
-                                          const SizedBox(width: 12),
-                                          Image.asset(
-                                            'assets/images/phone-call.png',
-                                            width: 16,
-                                            height: 16,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Column(),
-                                  Column(),
-                                ],
-                              ),
+                                    const SizedBox(height: 12),
+                                    // Container(
+                                    //   color: Colors.blueGrey.shade300,
+                                    //   width: 120,
+                                    //   height: 1,
+                                    // ),
+                                    // const SizedBox(height: 12),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const UserInfoTitle('0532132170'),
+                                        const SizedBox(width: 12),
+                                        Image.asset(
+                                          'assets/images/phone-call.png',
+                                          width: 16,
+                                          height: 16,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Column(),
+                                Column(),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ]),
+                    ),
+                    //
+                    Positioned(
+                      top: 160,
+                      left: 15,
+                      child: Container(
+                        height: 1000,
+                        width: 400,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                        ),
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                          //const CTTextFieldTittle('المشاريع'),
+                          Column(
+                            children: [
+                              for (var i in projectList) ...[
+                                ProjectCard(
+                                  projectName: i.pName,
+                                  projectDescription: i.pDescription,
+                                  githubLink: i.gitHubLink,
+                                ),
+                              ],
+                              uploadState ? const Text(' ') : const CircularProgressIndicator(),
                             ],
                           ),
+                          uploadState ? const Text('') : const CircularProgressIndicator(),
                         ]),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 14, top: 14, right: 14),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 228, 235, 238),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)),
-                ),
-                height: 1000,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40)),
-                  ),
-                  child: Column(
-                    children: [
-                      for (var i in projectList) ...[
-                        ProjectCard(
-                          projectName: i.pName,
-                          projectDescription: i.pDescription,
-                          githubLink: i.gitHubLink,
-                        ),
-                      ],
-                      uploadState
-                          ? const Text(' ')
-                          : const CircularProgressIndicator(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -372,6 +330,19 @@ class _ProjectDetailsState extends State<ProjectDetails> {
     );
   }
 }
+
+//  Column(
+//                 children: [
+//                   for (var i in projectList) ...[
+//                     ProjectCard(
+//                       projectName: i.pName,
+//                       projectDescription: i.pDescription,
+//                       githubLink: i.gitHubLink,
+//                     ),
+//                   ],
+//                   uploadState ? const Text(' ') : const CircularProgressIndicator(),
+//                 ],
+//               ),
 
 //
 // ignore: prefer-single-widget-per-file
@@ -411,19 +382,49 @@ class _ProjectCardState extends State<ProjectCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(14),
       child: Column(
         children: [
-          Text('widget.projectName'),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-              border: Border.fromBorderSide(BorderSide(color: Colors.grey)),
-            ),
-            child: Text(widget.projectDescription),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                widget.projectName,
+                style: GoogleFonts.notoSansArabic(
+                    color: const Color.fromARGB(255, 53, 104, 150), fontSize: 18, fontWeight: FontWeight.normal),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                'اسم التطبيق',
+                style: GoogleFonts.notoSansArabic(
+                    color: const Color(0xFF0D1F38), fontSize: 18, fontWeight: FontWeight.normal),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          const Text('ديمو'),
+          const Divider(
+            thickness: 1,
+          ),
+          Text(
+            widget.projectDescription,
+            style: GoogleFonts.notoSansArabic(
+                color: const Color.fromARGB(255, 67, 77, 77), fontSize: 14, fontWeight: FontWeight.normal),
+            textAlign: TextAlign.right,
+          ),
+          const Divider(
+            thickness: 1,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'ديمو',
+                style: GoogleFonts.notoSansArabic(
+                    color: const Color(0xFF0D1F38), fontSize: 18, fontWeight: FontWeight.normal),
+              ),
+            ],
+          ),
           InkWell(
             onTap: () {
               _controller!.play();
@@ -433,20 +434,44 @@ class _ProjectCardState extends State<ProjectCard> {
               height: 230.0,
               child: Container(
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
                 clipBehavior: Clip.hardEdge,
-                child: AspectRatio(
-                    aspectRatio: _controller!.value.aspectRatio,
-                    child: VideoPlayer(_controller!)),
+                child: AspectRatio(aspectRatio: _controller!.value.aspectRatio, child: VideoPlayer(_controller!)),
               ),
             ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          const Divider(
+            thickness: 1,
+          ),
+          const SizedBox(
+            height: 12,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text('widget.githubLink'),
-              const Icon(Icons.close),
+              InkWell(
+                onTap: () => launchUrl(Uri.parse(widget.githubLink)),
+                child: Text(
+                  widget.githubLink,
+                  style: GoogleFonts.ibmPlexSansArabic(
+                    fontSize: 12,
+                    decoration: TextDecoration.underline,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Text(
+                'GitHub',
+                style: GoogleFonts.notoSansArabic(
+                    color: const Color(0xFF0D1F38), fontSize: 14, fontWeight: FontWeight.normal),
+              ),
             ],
           ),
         ],

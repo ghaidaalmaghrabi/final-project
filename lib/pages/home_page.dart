@@ -43,12 +43,12 @@ class _HomePageState extends State<HomePage> {
     Image.asset(
       'assets/images/ui4.jpeg',
       fit: BoxFit.cover,
-      key: Key('3'),
+      key: const Key('3'),
     ),
     Image.asset(
       'assets/images/ui5.jpeg',
       fit: BoxFit.cover,
-      key: Key('4'),
+      key: const Key('4'),
     ),
     // Image.asset(
     //   'assets/images/ui6.jpeg',
@@ -119,8 +119,7 @@ class _HomePageState extends State<HomePage> {
 
   ///This method to get usr URL ...
   String funcGetVideoURL() {
-    final response =
-        supabase.from('newProject').select().eq('gitHubLink', userName());
+    final response = supabase.from('newProject').select().eq('gitHubLink', userName());
     return response.toString();
   }
 
@@ -179,21 +178,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SettingsPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child:
-                Image.asset('assets/images/setting.png', width: 50, height: 50),
+            child: Image.asset('assets/images/setting.png', width: 50, height: 50),
           ),
         ),
         automaticallyImplyLeading: false,
         title: Image.asset('assets/images/LogoName.png', height: 50),
-        actions: [
-          Image.asset('assets/images/LogoPic.png', width: 50, height: 50),
-          const SizedBox(width: 10)
-        ],
+        actions: [Image.asset('assets/images/LogoPic.png', width: 50, height: 50), const SizedBox(width: 10)],
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
@@ -204,7 +198,7 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
             child: Column(children: [
               AnimatedSwitcher(
-                duration: Duration(milliseconds: 1500),
+                duration: const Duration(milliseconds: 1500),
                 child: ImageProvider[index % ImageProvider.length],
               ),
               InkWell(
@@ -212,9 +206,7 @@ class _HomePageState extends State<HomePage> {
                   print(funcGetVideoURL());
                   log('clicked');
                 },
-                child: const Align(
-                    alignment: Alignment.topRight,
-                    child: MyTitle('المشاريع الاكثر إعجابًا')),
+                child: const Align(alignment: Alignment.topRight, child: MyTitle('المشاريع الاكثر إعجابًا')),
               ),
               Container(
                 color: Colors.white,
@@ -228,11 +220,8 @@ class _HomePageState extends State<HomePage> {
                         print(funcGetVideoURL());
                         log(_controller.toString());
                         _controller!.play();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ProjectDetails(pName: 'خضروات رهف')));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => const ProjectDetails(pName: 'خضروات رهف')));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -248,13 +237,11 @@ class _HomePageState extends State<HomePage> {
                             height: 130.0,
                             child: Container(
                               decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
+                                borderRadius: BorderRadius.all(Radius.circular(16)),
                               ),
                               clipBehavior: Clip.hardEdge,
                               child: AspectRatio(
-                                  aspectRatio: _controller!.value.aspectRatio,
-                                  child: VideoPlayer(_controller!)),
+                                  aspectRatio: _controller!.value.aspectRatio, child: VideoPlayer(_controller!)),
                             ),
                           ),
                           const SizedBox(
@@ -279,9 +266,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(children: [
                                     Icon(
                                         size: 18,
-                                        isLiked
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
+                                        isLiked ? Icons.favorite : Icons.favorite_border,
                                         color: isLiked ? Colors.red : null),
                                     // Text(numbOfLikes.toString())
                                   ]),
@@ -313,13 +298,11 @@ class _HomePageState extends State<HomePage> {
                             height: 130.0,
                             child: Container(
                               decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
+                                borderRadius: BorderRadius.all(Radius.circular(16)),
                               ),
                               clipBehavior: Clip.hardEdge,
                               child: AspectRatio(
-                                  aspectRatio: _controller2!.value.aspectRatio,
-                                  child: VideoPlayer(_controller2!)),
+                                  aspectRatio: _controller2!.value.aspectRatio, child: VideoPlayer(_controller2!)),
                             ),
                           ),
                           const SizedBox(
@@ -344,9 +327,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(children: [
                                     Icon(
                                         size: 18,
-                                        isLiked
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
+                                        isLiked ? Icons.favorite : Icons.favorite_border,
                                         color: isLiked ? Colors.red : null),
                                     // Text(numbOfLikes.toString())
                                   ]),
@@ -368,8 +349,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(10),
                         decoration: const BoxDecoration(
                             color: Color.fromARGB(255, 212, 219, 223),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(14))),
+                            borderRadius: BorderRadius.all(Radius.circular(14))),
                         width: 130.0,
                         margin: const EdgeInsets.all(6),
                         child: Column(children: [
@@ -377,54 +357,44 @@ class _HomePageState extends State<HomePage> {
                             width: 80.0,
                             height: 130.0,
                             child: Container(
-                                decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16))),
+                                decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16))),
                                 clipBehavior: Clip.hardEdge,
                                 child: AspectRatio(
-                                    aspectRatio:
-                                        _controller3!.value.aspectRatio,
-                                    child: VideoPlayer(_controller3!))),
+                                    aspectRatio: _controller3!.value.aspectRatio, child: VideoPlayer(_controller3!))),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      isLiked = !isLiked;
-                                      numbOfLikes3 += isLiked ? 1 : -1;
-                                    });
-                                    supabase
-                                        .from('newProject')
-                                        .update({'postLike': numbOfLikes3})
-                                        .eq('userName', userName())
-                                        .execute();
-                                  },
-                                  child: Icon(
-                                      size: 18,
-                                      isLiked
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      color: isLiked ? Colors.red : null),
-                                ),
-                                const Text('متجر غيداء'),
-                              ]),
+                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isLiked = !isLiked;
+                                  numbOfLikes3 += isLiked ? 1 : -1;
+                                });
+                                supabase
+                                    .from('newProject')
+                                    .update({'postLike': numbOfLikes3})
+                                    .eq('userName', userName())
+                                    .execute();
+                              },
+                              child: Icon(
+                                  size: 18,
+                                  isLiked ? Icons.favorite : Icons.favorite_border,
+                                  color: isLiked ? Colors.red : null),
+                            ),
+                            const Text('متجر غيداء'),
+                          ]),
                         ]),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              const Align(
-                  alignment: Alignment.topRight,
-                  child: MyTitle('استكشف المشاريع')),
+              const Align(alignment: Alignment.topRight, child: MyTitle('استكشف المشاريع')),
               const SizedBox(height: 8),
               SizedBox(
                 height: 300,
@@ -435,65 +405,51 @@ class _HomePageState extends State<HomePage> {
                         log(i.pName);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  DevelopersListPage(projectName: i.pName)),
+                          MaterialPageRoute(builder: (context) => DevelopersListPage(projectName: i.pName)),
                         );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 214, 221, 225),
+                          color: const Color.fromARGB(255, 214, 221, 225),
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10)),
                           boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                offset: const Offset(0, 3),
-                                blurRadius: 4),
+                            BoxShadow(color: Colors.grey.withOpacity(0.5), offset: const Offset(0, 3), blurRadius: 4),
                           ],
                         ),
                         child: Column(children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ProjectTitle(i.pName),
-                                const SizedBox(width: 20.0),
-                                WidgetCircularAnimator(
-                                  innerColor: Color.fromARGB(255, 192, 75, 75),
-                                  outerColor: Color.fromARGB(255, 14, 141, 26),
-                                  innerAnimation: Curves.easeInOutBack,
-                                  outerAnimation: Curves.easeInOutBack,
-                                  size: 80,
-                                  innerIconsSize: 3,
-                                  outerIconsSize: 3,
-                                  innerAnimationSeconds: 10,
-                                  outerAnimationSeconds: 10,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        shape: BoxShape.circle),
-                                    child: CircleAvatar(
-                                      backgroundColor: const Color(0xff034C5C),
-                                      radius: 32,
-                                      child: CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(i.pImage),
-                                          radius: 30),
-                                    ),
-                                  ),
+                          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                            ProjectTitle(i.pName),
+                            const SizedBox(width: 20.0),
+                            WidgetCircularAnimator(
+                              innerColor: const Color.fromARGB(255, 192, 75, 75),
+                              outerColor: const Color.fromARGB(255, 14, 141, 26),
+                              innerAnimation: Curves.easeInOutBack,
+                              outerAnimation: Curves.easeInOutBack,
+                              size: 80,
+                              innerIconsSize: 3,
+                              outerIconsSize: 3,
+                              innerAnimationSeconds: 10,
+                              outerAnimationSeconds: 10,
+                              child: Container(
+                                decoration: BoxDecoration(color: Colors.grey[200], shape: BoxShape.circle),
+                                child: CircleAvatar(
+                                  backgroundColor: const Color(0xff034C5C),
+                                  radius: 32,
+                                  child: CircleAvatar(backgroundImage: NetworkImage(i.pImage), radius: 30),
                                 ),
-                              ]),
+                              ),
+                            ),
+                          ]),
                           const SizedBox(height: 20.0),
 
                           Text(i.pDescription,
                               style: GoogleFonts.ibmPlexSansArabic(
-                                  color: Color(0xFF0D1F38),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal),
+                                  color: const Color(0xFF0D1F38), fontSize: 14, fontWeight: FontWeight.normal),
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.right,
                               maxLines: 2),
@@ -519,4 +475,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

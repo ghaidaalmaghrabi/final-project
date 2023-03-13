@@ -11,7 +11,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
 
 import '../components/ct_textfield_title.dart';
 import '../components/user_info_title.dart';
@@ -56,11 +55,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
 
   /// This method is used to get projects from supabase ...
   Future<List<AddNewProject>> getProjects() async {
-    final response = await supabase
-        .from('newProject')
-        .select()
-        .eq('userName', userName())
-        .execute();
+    final response = await supabase.from('newProject').select().eq('userName', userName()).execute();
 
     List<AddNewProject> newList = [];
 
@@ -80,11 +75,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
 
   /// THIS METHOD IS USED TO GET USER INFORMATION ...
   Future<List<UserInfo>> getUserInfo() async {
-    final response = await supabase
-        .from('userInfo')
-        .select()
-        .eq('usrId', userName())
-        .execute();
+    final response = await supabase.from('userInfo').select().eq('usrId', userName()).execute();
 
     List<UserInfo> newList = [];
 
@@ -129,10 +120,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
         ),
         automaticallyImplyLeading: false,
         title: Image.asset('assets/images/LogoName.png', height: 50),
-        actions: [
-          Image.asset('assets/images/LogoPic.png', width: 50, height: 50),
-          const SizedBox(width: 10)
-        ],
+        actions: [Image.asset('assets/images/LogoPic.png', width: 50, height: 50), const SizedBox(width: 10)],
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
@@ -143,16 +131,14 @@ class _DeveloperPageState extends State<DeveloperPage> {
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40)),
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
                 ),
                 width: double.infinity,
                 child: Stack(
                   // mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
+                    SizedBox(
                       height: 1000,
                       width: 500,
                       child: LottieBuilder.asset(
@@ -173,15 +159,12 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                     setState(() {
                                       uploadState = false;
                                     });
-                                    var pickedFile = await FilePicker.platform
-                                        .pickFiles(allowMultiple: false);
+                                    var pickedFile = await FilePicker.platform.pickFiles(allowMultiple: false);
                                     if (pickedFile != null) {
-                                      final file = File(
-                                          pickedFile.files.first.path ?? '');
+                                      final file = File(pickedFile.files.first.path ?? '');
                                       await supabase.storage
                                           .from('pdf-file')
-                                          .upload(
-                                              pickedFile.files.first.name, file)
+                                          .upload(pickedFile.files.first.name, file)
                                           .then((value) {
                                         print(value);
                                         setState(() {
@@ -197,15 +180,13 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                             headerAnimationLoop: false,
                                             dialogType: DialogType.success,
                                             showCloseIcon: true,
-                                            title:
-                                                'تم تحميل السيرة الذاتية بنجاح',
+                                            title: 'تم تحميل السيرة الذاتية بنجاح',
                                             btnOkOnPress: () {
                                               debugPrint('OnClcik');
                                             },
                                             btnOkIcon: Icons.check_circle,
                                             onDismissCallback: (type) {
-                                              debugPrint(
-                                                  'Dialog Dissmiss from callback $type');
+                                              debugPrint('Dialog Dissmiss from callback $type');
                                             },
                                           ).show();
                                         });
@@ -221,8 +202,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                       ),
                                       Text(
                                         'رفع السيرة الذاتية',
-                                        style: GoogleFonts.ibmPlexSansArabic(
-                                            fontSize: 14),
+                                        style: GoogleFonts.ibmPlexSansArabic(fontSize: 14),
                                       ),
                                     ],
                                   ),
@@ -240,16 +220,13 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                   duration: Duration(milliseconds: 2000),
                                   repeat: true,
                                   animate: true,
-                                  repeatPauseDuration:
-                                      Duration(milliseconds: 200),
+                                  repeatPauseDuration: Duration(milliseconds: 200),
                                   curve: Curves.fastOutSlowIn,
                                   showTwoGlows: true,
                                   glowColor: Colors.red,
                                   startDelay: Duration(milliseconds: 1000),
                                   child: CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          'assets/images/profilepic.webp'),
-                                      radius: 40.0),
+                                      backgroundImage: AssetImage('assets/images/profilepic.webp'), radius: 40.0),
                                 ),
                               ],
                             ),
@@ -263,24 +240,18 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         InkWell(
-                                          onTap: () => launchUrl(Uri.parse(
-                                              'https://www.linkedin.com/in/rhf-alharbi/')),
+                                          onTap: () => launchUrl(Uri.parse('https://www.linkedin.com/in/rhf-alharbi/')),
                                           child: Text(
                                             'linkedin.com/rhf-alharbi.com',
-                                            style:
-                                                GoogleFonts.ibmPlexSansArabic(
+                                            style: GoogleFonts.ibmPlexSansArabic(
                                               fontSize: 12,
-                                              decoration:
-                                                  TextDecoration.underline,
+                                              decoration: TextDecoration.underline,
                                               color: Colors.blue,
                                             ),
                                           ),
                                         ),
                                         const SizedBox(width: 12),
-                                        Image.asset(
-                                            'assets/images/linkedin.png',
-                                            width: 16,
-                                            height: 16),
+                                        Image.asset('assets/images/linkedin.png', width: 16, height: 16),
                                       ],
                                     ),
                                     const SizedBox(height: 12),
@@ -288,24 +259,18 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         InkWell(
-                                          onTap: () => launchUrl(Uri.parse(
-                                              'https://github.com/rhfhr')),
+                                          onTap: () => launchUrl(Uri.parse('https://github.com/rhfhr')),
                                           child: Text(
                                             'github.com/rhfhr.com',
-                                            style:
-                                                GoogleFonts.ibmPlexSansArabic(
+                                            style: GoogleFonts.ibmPlexSansArabic(
                                               fontSize: 12,
-                                              decoration:
-                                                  TextDecoration.underline,
+                                              decoration: TextDecoration.underline,
                                               color: Colors.blue,
                                             ),
                                           ),
                                         ),
                                         const SizedBox(width: 12),
-                                        Image.asset(
-                                            'assets/images/github-logo.png',
-                                            width: 16,
-                                            height: 16),
+                                        Image.asset('assets/images/github-logo.png', width: 16, height: 16),
                                       ],
                                     ),
                                   ],
@@ -315,8 +280,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                   children: [
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         UserInfoTitle(userEmail()),
                                         const SizedBox(width: 12),
@@ -358,53 +322,47 @@ class _DeveloperPageState extends State<DeveloperPage> {
                     ),
                     //
                     Positioned(
-                      top: 150,
+                      top: 160,
                       left: 15,
                       child: Container(
                         height: 1000,
                         width: 400,
                         decoration: const BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                         ),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(14),
-                                child: Text(
-                                  'المشاريع',
-                                  style: GoogleFonts.notoSansArabic(
-                                      color: Color.fromARGB(255, 67, 77, 77),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.normal),
-                                ),
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                          Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Text(
+                              'المشاريع',
+                              style: GoogleFonts.notoSansArabic(
+                                  color: const Color.fromARGB(255, 67, 77, 77),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                          //const CTTextFieldTittle('المشاريع'),
+                          Column(children: [
+                            for (var i in projectList) ...[
+                              InkWell(
+                                onTap: () {
+                                  log(i.pName);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProjectDetails(
+                                        pName: i.pName,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: ProjectCard(desc: i.pName),
                               ),
-                              //const CTTextFieldTittle('المشاريع'),
-                              Column(children: [
-                                for (var i in projectList) ...[
-                                  InkWell(
-                                    onTap: () {
-                                      log(i.pName);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ProjectDetails(
-                                            pName: i.pName,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: ProjectCard(desc: i.pName),
-                                  ),
-                                ],
-                              ]),
-                              uploadState
-                                  ? const Text('')
-                                  : const CircularProgressIndicator(),
-                            ]),
+                            ],
+                          ]),
+                          uploadState ? const Text('') : const CircularProgressIndicator(),
+                        ]),
                       ),
                     ),
                   ],
@@ -473,10 +431,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 showTwoGlows: true,
                 glowColor: Colors.blue,
                 startDelay: Duration(milliseconds: 1000),
-                child: CircleAvatar(
-                    backgroundImage:
-                        AssetImage('assets/images/flutter-pic.webp'),
-                    radius: 25.0),
+                child: CircleAvatar(backgroundImage: AssetImage('assets/images/flutter-pic.webp'), radius: 25.0),
               ),
             ],
           ),

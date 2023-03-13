@@ -8,7 +8,6 @@ import 'package:final_project/models/explore.dart';
 import 'package:final_project/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jumping_dot/jumping_dot.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:video_player/video_player.dart';
 
@@ -92,9 +91,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
     final fileName = _selectedVideo!.path.split('/').last;
     final bytes = await _selectedVideo!.readAsBytes();
 
-    final response = await supabase.storage
-        .from('demo-vid')
-        .uploadBinary('videos/$fileName', bytes);
+    final response = await supabase.storage.from('demo-vid').uploadBinary('videos/$fileName', bytes);
   }
 
   /// DISPOSE CONTROLLERS ...
@@ -143,8 +140,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                     padding: const EdgeInsets.all(16),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2(
-                        items: <String>['Flutter', 'Swift', 'UI / UX']
-                            .map<DropdownMenuItem<String>>((String value) {
+                        items: <String>['Flutter', 'Swift', 'UI / UX'].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -157,10 +153,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                           });
                           print(newValue);
                         },
-                        style: const TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal),
+                        style: const TextStyle(color: Colors.blueGrey, fontSize: 16, fontWeight: FontWeight.normal),
                         isExpanded: true,
                         buttonStyleData: ButtonStyleData(
                           height: 40,
@@ -181,20 +174,16 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                           maxHeight: 200,
                           width: 200,
                           padding: null,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(14)),
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
                           elevation: 8,
                           offset: const Offset(-20, 0),
                           scrollbarTheme: ScrollbarThemeData(
-                              thumbVisibility:
-                                  MaterialStateProperty.all<bool>(true),
+                              thumbVisibility: MaterialStateProperty.all<bool>(true),
                               thickness: MaterialStateProperty.all<double>(6),
                               radius: const Radius.circular(40)),
                         ),
-                        menuItemStyleData: const MenuItemStyleData(
-                            height: 40,
-                            padding: EdgeInsets.only(left: 14, right: 14)),
+                        menuItemStyleData:
+                            const MenuItemStyleData(height: 40, padding: EdgeInsets.only(left: 14, right: 14)),
                       ),
                     ),
                   ),
@@ -251,8 +240,7 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                     SizedBox(
                       width: 160,
                       height: 40,
-                      child: UploadVidButton(
-                          title: 'تحميل مقطع الفيديو', onTap: pickVideo),
+                      child: UploadVidButton(title: 'تحميل مقطع الفيديو', onTap: pickVideo),
                     ),
                   ],
                 ),
@@ -272,10 +260,23 @@ class _AddNewProjectPageState extends State<AddNewProjectPage> {
                         gitHubLink: projectLinkController.text,
                         userName: userName(),
                       );
-                      final response = await supabase
-                          .from('newProject')
-                          .insert([project.toJson()]);
+                      final response = await supabase.from('newProject').insert([project.toJson()]);
                       await uploadVideoToSupabase();
+                      AwesomeDialog(
+                        context: context,
+                        animType: AnimType.leftSlide,
+                        headerAnimationLoop: false,
+                        dialogType: DialogType.success,
+                        showCloseIcon: true,
+                        title: 'تم اضافة المشروع بنجاح',
+                        btnOkOnPress: () {
+                          debugPrint('OnClcik');
+                        },
+                        btnOkIcon: Icons.check_circle,
+                        onDismissCallback: (type) {
+                          debugPrint('Dialog Dissmiss from callback $type');
+                        },
+                      ).show();
                     },
                   ),
                 ),
